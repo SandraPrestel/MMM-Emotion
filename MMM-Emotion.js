@@ -1,0 +1,23 @@
+Module.register("MMM-MedicationReminder", {
+
+    currentEmotion: 'keine Emotion erkannt',
+
+    // default config values
+    defaults: {
+    },
+
+    start: function() {
+        // initial call
+
+    },
+
+    // Build the module display
+    getDom: function () {
+        var wrapper = document.createElement("div");
+        
+        wrapper.innerHTML = currentEmotion;
+
+        return wrapper;
+    },
+}
+);
