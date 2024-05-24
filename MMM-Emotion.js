@@ -26,15 +26,18 @@ Module.register("MMM-Emotion", {
 
     start: function() {
         // initial call
-        this.displayMessage = "Module started..."
+        this.displayMessage = "Detecting Emotion ..."
         this.currentEmotion = ""
+
+        this.sendSocketNotification('CONFIG', this.config);
+		Log.info('Starting module: ' + this.name);
     },
 
     // Build the module display
     getDom: function () {
         var wrapper = document.createElement("div");
         
-        wrapper.innerHTML = this.currentEmotion;
+        wrapper.innerHTML = this.displayMessage;
 
         return wrapper;
     },

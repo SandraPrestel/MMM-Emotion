@@ -1,0 +1,25 @@
+{
+    "name": "Magic-Mirror-Module-Emotion",
+    "version": "1.0.0",
+    "description": "Emotion Recognition for Magic Mirror",
+    "repository": {
+      "type": "git",
+      "url": "git+https://github.com/SandraPrestel/MMM-Emotion.git"
+    },
+    "keywords": [
+      "magic mirror",
+      "smart mirror",
+      "Emotion",
+      "module"
+    ],
+    "author": "Sandra Prestel",
+    "contributors": "https://github.com/SandraPrestel/MMM-Emotion/graphs/contributors",
+    "license": "MIT",
+    "bugs": {
+      "url": "https://github.com/SandraPrestel/MMM-Emotion/issues"
+    },
+    "homepage": "https://github.com/SandraPrestel/MMM-Emotion#readme",
+    "dependencies": {
+      "python-shell": "latest"
+      }
+  }
