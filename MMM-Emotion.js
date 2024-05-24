@@ -1,6 +1,6 @@
 Module.register("MMM-Emotion", {
 
-    currentEmotion: "keine Emotion erkannt",
+    currentEmotion : "keine Emotion erkannt",
 
     // default config values
     defaults: {
@@ -15,7 +15,7 @@ Module.register("MMM-Emotion", {
     getDom: function () {
         var wrapper = document.createElement("div");
         
-        wrapper.innerHTML = "test";
+        wrapper.innerHTML = this.currentEmotion;
 
         return wrapper;
     },
