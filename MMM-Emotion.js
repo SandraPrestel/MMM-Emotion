@@ -1,4 +1,4 @@
-Module.register("MMM-MedicationReminder", {
+Module.register("MMM-Emotion", {
 
     currentEmotion: 'keine Emotion erkannt',
 
