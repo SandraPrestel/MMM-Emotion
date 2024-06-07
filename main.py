@@ -41,7 +41,7 @@ to_node("status", "Testimage saved...")
 img = picam2.capture_array()
 
 # detect faces in frame
-grey = cv2.cvtColor(im, cv2.COLOR_BGR2GRAY)
+grey = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 faces = face_detector.detectMultiScale(grey, 1.1, 5)
 
 # debugging
