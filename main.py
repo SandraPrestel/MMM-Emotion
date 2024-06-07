@@ -33,6 +33,7 @@ camera_config = picam2.create_preview_configuration(main={"format": 'XRGB8888', 
 picam2.configure(camera_config)
 picam2.start()
 
+# TODO: remove next lines (only for debugging)
 time.sleep(2)
 picam2.capture_file("testPython.jpg")
 to_node("status", "Testimage saved...")

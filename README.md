@@ -11,7 +11,9 @@ A module that makes MagicMirror² recognize your emotions
 ## Dependencies
 
 - Installation of [MagicMirror<sup>2</sup>](https://github.com/MichMich/MagicMirror)
-- python-shell
+- python-shell (will be installed automatically when running npm install)
+- [OpenCV](http://opencv.org)
+- deepface (install with `pip install deepface`)
 
 ## Installation
 
