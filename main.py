@@ -46,7 +46,7 @@ faces = face_detector.detectMultiScale(grey, 1.1, 5)
 
 # debugging
 noFaces = len(faces)
-returnMessage = "Detected " + noFaces + " faces"
+returnMessage = "Detected " + str(noFaces) + " faces"
 
 
 picam2.stop()
