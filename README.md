@@ -13,7 +13,8 @@ A module that makes MagicMirror² recognize your emotions
 - Installation of [MagicMirror<sup>2</sup>](https://github.com/MichMich/MagicMirror)
 - python-shell (will be installed automatically when running npm install)
 - [OpenCV](http://opencv.org)
-- deepface (install with `pip install deepface`)
+- deepface
+- tf_keras
 
 ## Installation
 
@@ -29,6 +30,14 @@ To install the dependencies, navigate into the module folder and execute npm ins
 ```
 $ cd MMM-Emotion
 $ npm install
+```
+
+Additionally, you might have to install tf_keras and deepface, if it is not already available on your machine:
+
+```
+$ cd ~/
+$ pip install deepface
+$ pip install tf_keras
 ```
 
 ## Minimal configuration

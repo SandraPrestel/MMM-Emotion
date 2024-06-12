@@ -13,7 +13,8 @@ module.exports = NodeHelper.create({
         // create a shell to run our python script in
         const pyshell = new PythonShell('modules/' + this.name + '/main.py', { 
             mode: 'json', 
-            args: [JSON.stringify(this.config)]
+            args: [JSON.stringify(this.config)],
+            pythonPath: '/home/medicalmirror/mmenv/bin/python3'
         });
         
         // whenever the script returns a recognized emotion, send it on to our module
