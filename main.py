@@ -20,7 +20,7 @@ from transformers import (AutoFeatureExtractor,
 
 # get the module configuration
 CONFIG = json.loads(sys.argv[1])
-modelToUse = 'Kaggle'     #TODO: Read from config
+modelToUse = 'ViTFace'     #TODO: Read from config
 
 def to_node(type, message):
     # convert to json and print (node helper will read from stdout)
