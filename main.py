@@ -4,12 +4,22 @@ import os
 import inspect
 import time
 import cv2
+
 from picamera2 import Picamera2
 from deepface import DeepFace
 
+import numpy as np
+import tensorflow as tf
+import keras
+from keras.models import load_model
+
 # get the module configuration
 CONFIG = json.loads(sys.argv[1])
-modelToUse = 'DeepFace'     #TODO: Read from config
+modelToUse = 'Kaggle'     #TODO: Read from config
+
+if (modelToUse == 'Kaggle'):
+    kaggleModel = load_model('/face_detection/emotion_model8.h5')
+    kaggleLabels = ['angry', 'disgust', 'fear', 'happy', 'neutral', 'sad', 'surprise']
 
 def to_node(type, message):
     # convert to json and print (node helper will read from stdout)
@@ -73,6 +83,17 @@ if (noFaces == 1):
         case 'VitFace':
             #TODO
             detected_emotion = 'TODO'
+        case 'Kaggle':
+            to_node("status", "Selected Kaggle model...")
+            shape = (48, 48)
+            faceReshaped = cv2.resize(faceRegion, shape, interpolation= cv2.INTER_LINEAR)
+            faceAsNPArray = np.array(faceReshaped).reshape(-1, 48, 48, 1)
+            to_node("status", "Image processed...")
+
+            predictions = kaggleModel.predict(np.array(faceAsNPArray))
+            to_node("status", "Prediction completed...")
+
+            detected_emotion = kaggleLabels[np.argmax(predictions)]
         
     returnMessage = detected_emotion
 
