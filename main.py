@@ -49,11 +49,11 @@ img = picam2.capture_array()
 greyImg = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 faces = face_detector.detectMultiScale(greyImg, 1.1, 5)
 
-""" # detect emotion in face
+# detect emotion in face
 noFaces = len(faces)    # make sure to only do this if a face was detected
-to_node("status", "Testimage saved...")     # TODO: remove after debugging
+to_node("status", str(noFaces)+" detected...")     # TODO: remove after debugging
 
-if (noFaces == 1):
+""" if (noFaces == 1):
     rgbImg = rgb_frame = cv2.cvtColor(greyImg, cv2.COLOR_GRAY2RGB)
     
     x, y, w, h = faces[0]
