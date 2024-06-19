@@ -63,8 +63,8 @@ if (noFaces == 1):
     faceAnalysis = DeepFace.analyze(faceRegion, actions="emotion", enforce_detection=False)
     detected_emotion = faceAnalysis[0]['dominant_emotion']
 
-    #returnMessage = detected_emotion
-    returnMessage = "one Face detected"
+    returnMessage = detected_emotion
+    #returnMessage = "one Face detected"
 
 elif (noFaces == 0):
     returnMessage = "no Faces detected"
