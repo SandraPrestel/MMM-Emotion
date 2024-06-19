@@ -13,6 +13,11 @@ import tensorflow as tf
 import keras
 from keras.models import load_model
 
+import torch
+from transformers import (AutoFeatureExtractor,
+                          AutoModelForImageClassification,
+                          AutoConfig)
+
 # get the module configuration
 CONFIG = json.loads(sys.argv[1])
 modelToUse = 'Kaggle'     #TODO: Read from config
@@ -27,15 +32,27 @@ def to_node(type, message):
     sys.stdout.flush()
 
 
-to_node("status", "Backend loaded...")
+to_node("status", "Config loaded...")
 
 # variables
 detected_emotion = "no emotion detected"
 path_to_file = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
 
+# setup environment and load models
 if (modelToUse == 'Kaggle'):
     kaggleModel = load_model(path_to_file + '/face_detection/emotion_model8.h5')
     kaggleLabels = ['angry', 'disgust', 'fear', 'happy', 'neutral', 'sad', 'surprise']
+elif(modelToUse == 'ViTFace'):
+    # Set cache directories for XDG and Hugging Face Hub
+    os.environ['XDG_CACHE_HOME'] = path_to_file + '/cache/.cache'
+    os.environ['HUGGINGFACE_HUB_CACHE'] = path_to_file + '/cache/.cache'
+
+    # load pretrained feature extractor and model
+    vitExtractor = AutoFeatureExtractor.from_pretrained("trpakov/vit-face-expression")
+    vitModel = AutoModelForImageClassification.from_pretrained("trpakov/vit-face-expression")
+    vitLabels = AutoConfig.from_pretrained("trpakov/vit-face-expression").id2label
+
+to_node("status", "Environment setup...")
 
 # setup face detector
 face_detector = cv2.CascadeClassifier(path_to_file + "/face_detection/haarcascade_frontalface_default.xml")
@@ -81,9 +98,23 @@ if (noFaces == 1):
             #to_node("status", "Emotion detected...")
             detected_emotion = faceAnalysis[0]['dominant_emotion']  #TODO: check why sometimes error "JSON: Unexpected non-whitespace character"
             #to_node("status", "Emotion " + detected_emotion + " detected...")
-        case 'VitFace':
-            #TODO
-            detected_emotion = 'TODO'
+
+        case 'ViTFace':
+            features = vitExtractor(images=faceRegion, return_tensors="pt")
+            to_node("status", "Features extracted...")
+
+            predictions = vitModel(**features)
+            to_node("status", "Prediction completed...")
+
+            probabilities = torch.nn.functional.softmax(predictions.logits, dim=-1)
+            to_node("status", "Probabilities extracted...")
+
+            probabilities = probabilities.detach().numpy().tolist()[0]
+            to_node("status", "Probabilities converted...")
+
+            emotionIndex = probabilities.index(max(probabilities))
+            detected_emotion = vitLabels[emotionIndex]
+
         case 'Kaggle':
             to_node("status", "Selected Kaggle model...")
             shape = (48, 48)
