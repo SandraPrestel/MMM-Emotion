@@ -61,7 +61,9 @@ if (noFaces == 1):
     to_node("status", "Image cropped...")     # TODO: remove after debugging
 
     faceAnalysis = DeepFace.analyze(faceRegion, actions="emotion", enforce_detection=False)
+    to_node("status", "Emotion detected...")
     detected_emotion = faceAnalysis[0]['dominant_emotion']
+    to_node("status", "Emotion " + detected_emotion + "detected...")
 
     returnMessage = detected_emotion
     #returnMessage = "one Face detected"
