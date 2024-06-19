@@ -90,7 +90,7 @@ if (noFaces == 1):
             faceAsNPArray = np.array(faceReshaped).reshape(-1, 48, 48, 1)
             to_node("status", "Image processed...")
 
-            predictions = kaggleModel.predict(aceAsNPArray)
+            predictions = kaggleModel.predict(faceAsNPArray)
             #to_node("status", "Prediction completed...")
 
             #detected_emotion = kaggleLabels[np.argmax(predictions)]
