@@ -5,6 +5,7 @@ import inspect
 import time
 import cv2
 from picamera2 import Picamera2
+from deepface import DeepFace
 
 def to_node(type, message):
     # convert to json and print (node helper will read from stdout)
@@ -38,19 +39,40 @@ time.sleep(2)
 picam2.capture_file("testPython.jpg")
 to_node("status", "Testimage saved...")
 
+
+# TODO: wrap into loop until picamera.stop()
+
 # capture frame
 img = picam2.capture_array()
 
 # detect faces in frame
-grey = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-faces = face_detector.detectMultiScale(grey, 1.1, 5)
+greyImg = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+faces = face_detector.detectMultiScale(greyImg, 1.1, 5)
 
-# debugging
-noFaces = len(faces)
-returnMessage = "Detected " + str(noFaces) + " faces"
+# detect emotion in face
+noFaces = len(faces)    # make sure to only do this if a face was detected
+to_node("status", "Testimage saved...")     # TODO: remove after debugging
+
+if (noFaces == 1):
+    rgbImg = rgb_frame = cv2.cvtColor(greyImg, cv2.COLOR_GRAY2RGB)
+    
+    x, y, w, h = faces[0]
+    faceRegion = rgbImg[y:y + h, x:x + w]
+    to_node("status", "Image cropped...")     # TODO: remove after debugging
+
+    faceAnalysis = DeepFace.analyze(faceRegion, actions="emotion", enforce_detection=False)
+    detected_emotion = faceAnalysis[0]['dominant_emotion']
+
+    returnMessage = detected_emotion
+
+elif (noFaces == 0):
+    returnMessage = "no Faces detected"
+
+elif (noFaces > 1):
+    returnMessage = "multiple Faces detected"
+
+# return the result to the mirror
+to_node('result', {'emotion': returnMessage})
 
 
 picam2.stop()
-
-# dummy result
-to_node('result', {'emotion': returnMessage})    #TODO: Replace by detected emotion
