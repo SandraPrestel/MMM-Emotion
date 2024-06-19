@@ -53,17 +53,18 @@ faces = face_detector.detectMultiScale(greyImg, 1.1, 5)
 noFaces = len(faces)    # make sure to only do this if a face was detected
 to_node("status", str(noFaces)+" detected...")     # TODO: remove after debugging
 
-""" if (noFaces == 1):
-    rgbImg = rgb_frame = cv2.cvtColor(greyImg, cv2.COLOR_GRAY2RGB)
+if (noFaces == 1):
+    returnMessage = "one Face detected"
+    #rgbImg = rgb_frame = cv2.cvtColor(greyImg, cv2.COLOR_GRAY2RGB)
     
-    x, y, w, h = faces[0]
-    faceRegion = rgbImg[y:y + h, x:x + w]
-    to_node("status", "Image cropped...")     # TODO: remove after debugging
+    #x, y, w, h = faces[0]
+    #faceRegion = rgbImg[y:y + h, x:x + w]
+    #to_node("status", "Image cropped...")     # TODO: remove after debugging
 
-    faceAnalysis = DeepFace.analyze(faceRegion, actions="emotion", enforce_detection=False)
-    detected_emotion = faceAnalysis[0]['dominant_emotion']
+    #faceAnalysis = DeepFace.analyze(faceRegion, actions="emotion", enforce_detection=False)
+    #detected_emotion = faceAnalysis[0]['dominant_emotion']
 
-    returnMessage = detected_emotion
+    #returnMessage = detected_emotion
 
 elif (noFaces == 0):
     returnMessage = "no Faces detected"
@@ -72,7 +73,7 @@ elif (noFaces > 1):
     returnMessage = "multiple Faces detected"
 
 # return the result to the mirror
-to_node('result', {'emotion': returnMessage}) """
+to_node('result', {'emotion': returnMessage})
 
 
 picam2.stop()
