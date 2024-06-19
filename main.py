@@ -60,7 +60,7 @@ if (noFaces == 1):
     faceRegion = rgbImg[y:y + h, x:x + w]
     to_node("status", "Image cropped...")     # TODO: remove after debugging
 
-    #faceAnalysis = DeepFace.analyze(faceRegion, actions="emotion", enforce_detection=False)
+    faceAnalysis = DeepFace.analyze(faceRegion, actions="emotion", enforce_detection=False)
     #detected_emotion = faceAnalysis[0]['dominant_emotion']
 
     #returnMessage = detected_emotion
