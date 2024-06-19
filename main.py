@@ -20,7 +20,7 @@ def to_node(type, message):
 to_node("status", "Backend loaded...")
 
 # variables
-detected_emotion = "none"
+detected_emotion = "no emotion detected"
 path_to_file = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
 
 # setup face detector
@@ -51,11 +51,10 @@ faces = face_detector.detectMultiScale(greyImg, 1.1, 5)
 
 # detect emotion in face
 noFaces = len(faces)    # make sure to only do this if a face was detected
-to_node("status", str(noFaces)+" detected...")     # TODO: remove after debugging
+to_node("status", str(noFaces)+" faces detected...")     # TODO: remove after debugging
 
 if (noFaces == 1):
-    returnMessage = "one Face detected"
-    #rgbImg = rgb_frame = cv2.cvtColor(greyImg, cv2.COLOR_GRAY2RGB)
+    rgbImg = rgb_frame = cv2.cvtColor(greyImg, cv2.COLOR_GRAY2RGB)
     
     #x, y, w, h = faces[0]
     #faceRegion = rgbImg[y:y + h, x:x + w]
@@ -65,6 +64,7 @@ if (noFaces == 1):
     #detected_emotion = faceAnalysis[0]['dominant_emotion']
 
     #returnMessage = detected_emotion
+    returnMessage = "one Face detected"
 
 elif (noFaces == 0):
     returnMessage = "no Faces detected"
