@@ -17,10 +17,6 @@ from keras.models import load_model
 CONFIG = json.loads(sys.argv[1])
 modelToUse = 'Kaggle'     #TODO: Read from config
 
-if (modelToUse == 'Kaggle'):
-    kaggleModel = load_model('/face_detection/emotion_model8.h5')
-    kaggleLabels = ['angry', 'disgust', 'fear', 'happy', 'neutral', 'sad', 'surprise']
-
 def to_node(type, message):
     # convert to json and print (node helper will read from stdout)
     try:
@@ -36,6 +32,10 @@ to_node("status", "Backend loaded...")
 # variables
 detected_emotion = "no emotion detected"
 path_to_file = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
+
+if (modelToUse == 'Kaggle'):
+    kaggleModel = load_model(path_to_file + '/face_detection/emotion_model8.h5')
+    kaggleLabels = ['angry', 'disgust', 'fear', 'happy', 'neutral', 'sad', 'surprise']
 
 # setup face detector
 face_detector = cv2.CascadeClassifier(path_to_file + "/face_detection/haarcascade_frontalface_default.xml")
