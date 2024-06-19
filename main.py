@@ -7,6 +7,10 @@ import cv2
 from picamera2 import Picamera2
 from deepface import DeepFace
 
+# get the module configuration
+CONFIG = json.loads(sys.argv[1])
+modelToUse = 'DeepFace'     #TODO: Read from config
+
 def to_node(type, message):
     # convert to json and print (node helper will read from stdout)
     try:
@@ -51,22 +55,26 @@ faces = face_detector.detectMultiScale(greyImg, 1.1, 5)
 
 # detect emotion in face
 noFaces = len(faces)    # make sure to only do this if a face was detected
-to_node("status", str(noFaces)+" faces detected...")     # TODO: remove after debugging
+#to_node("status", str(noFaces)+" faces detected...")
 
 if (noFaces == 1):
     rgbImg = rgb_frame = cv2.cvtColor(greyImg, cv2.COLOR_GRAY2RGB)
     
     x, y, w, h = faces[0]
     faceRegion = rgbImg[y:y + h, x:x + w]
-    to_node("status", "Image cropped...")     # TODO: remove after debugging
+    #to_node("status", "Image cropped...")
 
-    faceAnalysis = DeepFace.analyze(faceRegion, actions="emotion", enforce_detection=False)
-    to_node("status", "Emotion detected...")
-    detected_emotion = faceAnalysis[0]['dominant_emotion']
-    to_node("status", "Emotion " + detected_emotion + "detected...")
-
+    match modelToUse:
+        case 'DeepFace':
+            faceAnalysis = DeepFace.analyze(faceRegion, actions="emotion", enforce_detection=False)
+            #to_node("status", "Emotion detected...")
+            detected_emotion = faceAnalysis[0]['dominant_emotion']  #TODO: check why sometimes error "JSON: Unexpected non-whitespace character"
+            #to_node("status", "Emotion " + detected_emotion + " detected...")
+        case 'VitFace':
+            #TODO
+            detected_emotion = 'TODO'
+        
     returnMessage = detected_emotion
-    #returnMessage = "one Face detected"
 
 elif (noFaces == 0):
     returnMessage = "no Faces detected"
