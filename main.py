@@ -20,7 +20,7 @@ from transformers import (AutoFeatureExtractor,
 
 # get the module configuration
 CONFIG = json.loads(sys.argv[1])
-modelToUse = 'ViTFace'     #TODO: Read from config
+modelToUse = 'DeepFace'     #TODO: Read from config
 
 def to_node(type, message):
     # convert to json and print (node helper will read from stdout)
@@ -46,11 +46,15 @@ elif(modelToUse == 'ViTFace'):
     # Set cache directories for XDG and Hugging Face Hub
     os.environ['XDG_CACHE_HOME'] = path_to_file + '/cache/.cache'
     os.environ['HUGGINGFACE_HUB_CACHE'] = path_to_file + '/cache/.cache'
+    to_node("status", "Environment variables set...")
 
     # load pretrained feature extractor and model
     vitExtractor = AutoFeatureExtractor.from_pretrained("trpakov/vit-face-expression")
+    to_node("status", "Extractor loaded...")
     vitModel = AutoModelForImageClassification.from_pretrained("trpakov/vit-face-expression")
+    to_node("status", "Model loaded...")
     vitLabels = AutoConfig.from_pretrained("trpakov/vit-face-expression").id2label
+    to_node("status", "Labels loaded...")
 
 to_node("status", "Environment setup...")
 
