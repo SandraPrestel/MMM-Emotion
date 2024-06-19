@@ -42,7 +42,7 @@ path_to_file = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentfr
 if (modelToUse == 'Kaggle'):
     kaggleModel = load_model(path_to_file + '/face_detection/emotion_model8.h5')
     kaggleLabels = ['angry', 'disgust', 'fear', 'happy', 'neutral', 'sad', 'surprise']
-elif(modelToUse == 'ViTFace'):
+elif(modelToUse == 'ViTFace'):  # TODO: mark as currently not working
     # Set cache directories for XDG and Hugging Face Hub
     os.environ['XDG_CACHE_HOME'] = path_to_file + '/cache/.cache'
     os.environ['HUGGINGFACE_HUB_CACHE'] = path_to_file + '/cache/.cache'
