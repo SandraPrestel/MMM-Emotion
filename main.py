@@ -94,8 +94,8 @@ if (noFaces == 1):
             predictions = kaggleModel.predict(faceAsNPArray, verbose = 0)
             to_node("status", "Prediction completed...")
 
-            #detected_emotion = kaggleLabels[np.argmax(predictions)]
-            detected_emotion = 'Test'
+            detected_emotion = kaggleLabels[np.argmax(predictions)]
+            #detected_emotion = 'Test'
         
     returnMessage = detected_emotion
 
