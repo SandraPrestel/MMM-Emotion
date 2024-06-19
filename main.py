@@ -72,6 +72,7 @@ if (noFaces == 1):
     
     x, y, w, h = faces[0]
     faceRegion = rgbImg[y:y + h, x:x + w]
+    faceRegionGrey = greyImg[y:y + h, x:x + w]
     #to_node("status", "Image cropped...")
 
     match modelToUse:
@@ -86,12 +87,12 @@ if (noFaces == 1):
         case 'Kaggle':
             to_node("status", "Selected Kaggle model...")
             shape = (48, 48)
-            faceReshaped = cv2.resize(faceRegion, shape, interpolation= cv2.INTER_LINEAR)
+            faceReshaped = cv2.resize(faceRegionGrey, shape, interpolation= cv2.INTER_LINEAR)   #model only accepts grayscale image
             faceAsNPArray = np.array(faceReshaped).reshape(-1, 48, 48, 1)
             to_node("status", "Image processed...")
 
             predictions = kaggleModel.predict(faceAsNPArray)
-            #to_node("status", "Prediction completed...")
+            to_node("status", "Prediction completed...")
 
             #detected_emotion = kaggleLabels[np.argmax(predictions)]
             detected_emotion = 'Test'
