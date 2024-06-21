@@ -3,6 +3,7 @@
 'use strict';
 const NodeHelper = require('node_helper');
 const { PythonShell } = require('python-shell');
+const onExit = require('signal-exit');
 
 var pythonStarted = false
 
@@ -42,7 +43,20 @@ module.exports = NodeHelper.create({
         pyshell.end(function(err) {
             if (err) throw err;
             console.log("[" + self.name + "] " + 'finished running...');
-          });
+        });
+        
+        onExit(function (_code, _signal) {
+          self.destroy();
+        });
+    },
+
+    python_stop: function () {
+      this.destroy();
+    },
+  
+    destroy: function () {
+      console.log('[' + this.name + '] ' + 'Terminate python');
+      this.pyshell.childProcess.kill();
     },
 
     // Subclass socketNotificationReceived
