@@ -46,7 +46,7 @@ signal.signal(signal.SIGINT, signalHandler)     #TODO: test this
 closeSafe = False
 
 to_node("status", "Module setup...")
-to_node("status", CONFIG)
+to_node("status", str(CONFIG['interval']))
 
 
 # setup environment and load models
