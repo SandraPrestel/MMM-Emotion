@@ -25,7 +25,7 @@ from transformers import (AutoFeatureExtractor,
 
 # get module configuration, configure shutdown mechanism and set global variables
 CONFIG = json.loads(sys.argv[1])
-USED_MODEL = 'DeepFace'     #TODO: Read from config
+USED_MODEL = CONFIG['emotionRecognitionModel']
 PATH_TO_FILE = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
 detected_emotion = "no emotion detected"
 
@@ -46,8 +46,7 @@ signal.signal(signal.SIGINT, signalHandler)     #TODO: test this
 closeSafe = False
 
 to_node("status", "Module setup...")
-to_node("status", str(CONFIG['interval']))
-
+to_node("status", "Selected model " + USED_MODEL + "...")
 
 # setup environment and load models
 # Deepface doesn't need additional resources
@@ -78,9 +77,7 @@ to_node("status", "Environment setup...")
 
 # Setup the face detection
 FACE_DETECTOR = cv2.CascadeClassifier(PATH_TO_FILE + "/face_detection/haarcascade_frontalface_default.xml")
-#cv2.startWindowThread()    #TODO: remove if not needed
-
-to_node("status", "CV2 started...")
+to_node("status", "Face Detection model loaded...")
 
 
 # start the camera
@@ -113,15 +110,11 @@ while True:
 
         match USED_MODEL:
             case 'DeepFace':
-                to_node("status", "Selected Deepface model...")
-
                 faceAnalysis = DeepFace.analyze(faceRegion, actions="emotion", enforce_detection=False)
                 detected_emotion = faceAnalysis[0]['dominant_emotion']
                 to_node("status", "Detection completed...")
 
             case 'Kaggle':
-                to_node("status", "Selected Kaggle model...")
-
                 # this model needs a grayscale image with resolution (48,48)
                 shape = (48, 48)
                 faceReshaped = cv2.resize(faceRegionGrey, shape, interpolation= cv2.INTER_LINEAR)
@@ -167,6 +160,6 @@ while True:
     if closeSafe == True:
         break
 
-    time.sleep(3600)  #TODO: read from config, currently set to only once per hour to save on resources while testing
+    time.sleep(CONFIG['interval'])
 
 picam2.stop()

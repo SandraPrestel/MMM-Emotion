@@ -5,10 +5,11 @@ Module.register("MMM-Emotion", {
 
     // default config values
     defaults: {
-        // makes switching between different tested models easier - remove in final iteration
-        recognitionModel: 1,
+        // switch between emotion recognition models, values: 'DeepFace', 'Kaggle', 'ViTFace' (currently not functional)
+        emotionRecognitionModel: 'DeepFace',
         // detection interval in seconds
-        interval: 60
+        // TODO: change after development, currently set to only once per hour to save on resources while testing
+        interval: 3600
     },
 
     socketNotificationReceived: function(notification, payload){
