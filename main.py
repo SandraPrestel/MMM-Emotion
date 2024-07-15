@@ -80,6 +80,7 @@ while True:
     img = picam2.capture_array()
     greyImg = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     faces = FACE_DETECTOR.detectMultiScale(image=greyImg, scaleFactor=1.1, minNeighbors=5, minSize=(30,30))     #TODO: optimize parameters
+    to_node("status", "Faces detected...")
 
     # only detect emotions for one face
     noFaces = len(faces)
