@@ -8,7 +8,9 @@ Module.register("MMM-Emotion", {
         // switch between emotion recognition models, 'DeepFace' or'Kaggle'
         emotionRecognitionModel: 'DeepFace',
         // detection interval in seconds
-        interval: 1*60
+        interval: 1*60,
+        // what to show as reaction to your emotion
+        show: ['status', 'message', 'image', 'song'] 
     },
 
     socketNotificationReceived: function(notification, payload){
@@ -36,8 +38,16 @@ Module.register("MMM-Emotion", {
     // Build the module display
     getDom: function () {
         var wrapper = document.createElement("div");
-        
-        wrapper.innerHTML = this.displayMessage;
+        wrapper.className = "module";
+
+        var title = document.createElement("header");
+        title.className = "title";
+        title.innerHTML = "My Emotions";
+        wrapper.appendChild(title);
+
+        var message = document.createElement("message");
+        message.innerHTML = this.displayMessage;
+        wrapper.appendChild(message);
 
         return wrapper;
     },
