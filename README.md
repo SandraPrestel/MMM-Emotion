@@ -1,4 +1,4 @@
-## !Work in Progress!
+## Status: in Development
 
 # MMM-Emotion
 
@@ -22,7 +22,7 @@ In your terminal, navigate to the modules folder and clone this repository.
 
 ```
 $ cd ~/MagicMirror/modules
-$ git clone ...
+$ git clone https://github.com/SandraPrestel/MMM-Emotion.git
 ```
 
 To install the dependencies, navigate into the module folder and execute npm install:

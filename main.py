@@ -42,7 +42,7 @@ def signalHandler(signal, frame):
     global closeSafe
     closeSafe = True
 
-signal.signal(signal.SIGINT, signalHandler)     #TODO: test this
+signal.signal(signal.SIGINT, signalHandler)
 closeSafe = False
 
 to_node("status", "Module setup...")
@@ -53,24 +53,6 @@ to_node("status", "Selected model " + USED_MODEL + "...")
 if (USED_MODEL == 'Kaggle'):
     kaggleModel = load_model(PATH_TO_FILE + '/face_detection/emotion_model8.h5')
     kaggleLabels = ['angry', 'disgust', 'fear', 'happy', 'neutral', 'sad', 'surprise']  #TODO: verify these labels
-
-#TODO: make this work or remove the next section
-# CURRENTLY NOT WORKING - MODEL PERFORMANCE NOT SUFFICIENT
-""" 
-    elif(USED_MODEL == 'ViTFace'):  
-    # Setting cache directories for XDG and Hugging Face Hub to prevent redownload of models
-    os.environ['XDG_CACHE_HOME'] = PATH_TO_FILE + '/cache/.cache'
-    os.environ['HUGGINGFACE_HUB_CACHE'] = PATH_TO_FILE + '/cache/.cache'
-    to_node("status", "Environment variables set...")
-
-    # load resources if not in cache
-    vitExtractor = AutoFeatureExtractor.from_pretrained("trpakov/vit-face-expression")
-    to_node("status", "Extractor loaded...")
-    vitModel = AutoModelForImageClassification.from_pretrained("trpakov/vit-face-expression")
-    to_node("status", "Model loaded...")
-    vitLabels = AutoConfig.from_pretrained("trpakov/vit-face-expression").id2label
-    to_node("status", "Labels loaded...") 
-"""
 
 to_node("status", "Environment setup...")
 
@@ -124,26 +106,6 @@ while True:
                 predictions = kaggleModel.predict(faceAsNPArray, verbose = 0)
                 detected_emotion = kaggleLabels[np.argmax(predictions)]
                 to_node("status", "Detection completed...")
-
-            #TODO: make this work or remove the next section
-            # CURRENTLY NOT WORKING - MODEL PERFORMANCE NOT SUFFICIENT
-                """
-            case 'ViTFace':
-            features = vitExtractor(images=faceRegion, return_tensors="pt")
-            to_node("status", "Features extracted...")
-
-            predictions = vitModel(**features)
-            to_node("status", "Prediction completed...")
-
-            probabilities = torch.nn.functional.softmax(predictions.logits, dim=-1)
-            to_node("status", "Probabilities extracted...")
-
-            probabilities = probabilities.detach().numpy().tolist()[0]
-            to_node("status", "Probabilities converted...")
-
-            emotionIndex = probabilities.index(max(probabilities))
-            detected_emotion = vitLabels[emotionIndex]
-                """
             
         returnMessage = detected_emotion
 

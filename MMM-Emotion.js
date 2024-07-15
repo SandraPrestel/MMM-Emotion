@@ -5,17 +5,16 @@ Module.register("MMM-Emotion", {
 
     // default config values
     defaults: {
-        // switch between emotion recognition models, values: 'DeepFace', 'Kaggle', 'ViTFace' (currently not functional)
+        // switch between emotion recognition models, 'DeepFace' or'Kaggle'
         emotionRecognitionModel: 'DeepFace',
         // detection interval in seconds
-        // TODO: change after development, currently set to only once per hour to save on resources while testing
-        interval: 3600
+        interval: 1*60
     },
 
     socketNotificationReceived: function(notification, payload){
         // only change the display if the emotion has changed
         if (payload.emotion !== this.currentEmotion){
-            this.currentEmotion = payload.emotion   //TODO: make sure this is a string
+            this.currentEmotion = payload.emotion
 
             //TODO: Different reactions based on the emotions
             this.displayMessage = this.currentEmotion
