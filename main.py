@@ -120,9 +120,9 @@ while True:
         if len(detected_emotions) > CONFIG['averageOver']:
             detected_emotions.pop()     # remove last item = oldest entry
 
-        dominantEmotion = ""
+        to_node("status", "List of emotions: "+str(detected_emotions))
 
-        returnMessage = dominantEmotion
+        returnMessage = most_frequent(detected_emotions)
 
     elif (noFaces == 0):
         returnMessage = "no Faces detected"
