@@ -4,6 +4,7 @@ import os
 import inspect
 import time
 import signal
+from collections import Counter
 
 # video and image packages
 import cv2
@@ -27,6 +28,9 @@ from transformers import (AutoFeatureExtractor,
 CONFIG = json.loads(sys.argv[1])
 USED_MODEL = CONFIG['emotionRecognitionModel']
 PATH_TO_FILE = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
+
+# track emotions of last 5 minutes in a FIFO list
+detected_emotions = []  
 detected_emotion = "no emotion detected"
 
 def to_node(type, message):
@@ -41,6 +45,10 @@ def to_node(type, message):
 def signalHandler(signal, frame):
     global closeSafe
     closeSafe = True
+
+def most_frequent(List):
+    occurence_count = Counter(List)
+    return occurence_count.most_common(1)[0][0]
 
 signal.signal(signal.SIGINT, signalHandler)
 closeSafe = False
@@ -94,7 +102,7 @@ while True:
         match USED_MODEL:
             case 'DeepFace':
                 faceAnalysis = DeepFace.analyze(faceRegion, actions="emotion", enforce_detection=False)
-                detected_emotion = faceAnalysis[0]['dominant_emotion']
+                detected_emotions.insert(0, faceAnalysis[0]['dominant_emotion'])   # add to front of list
                 to_node("status", "Detection completed...")
 
             case 'Kaggle':
@@ -105,10 +113,16 @@ while True:
                 to_node("status", "Image processed...")
 
                 predictions = kaggleModel.predict(faceAsNPArray, verbose = 0)
-                detected_emotion = kaggleLabels[np.argmax(predictions)]
+                detected_emotions.insert(0, kaggleLabels[np.argmax(predictions)])  # add to front of list
                 to_node("status", "Detection completed...")
-            
-        returnMessage = detected_emotion
+        
+        # make sure that the list is max. as long as configured
+        if len(detected_emotions) > CONFIG['averageOver']:
+            detected_emotions.pop()     # remove last item = oldest entry
+
+        dominantEmotion = ""
+
+        returnMessage = dominantEmotion
 
     elif (noFaces == 0):
         returnMessage = "no Faces detected"

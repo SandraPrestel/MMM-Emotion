@@ -9,6 +9,8 @@ Module.register("MMM-Emotion", {
         emotionRecognitionModel: 'DeepFace',
         // detection interval in seconds
         interval: 1*60,
+        // how many detections should be used to determine the current emotion
+        averageOver: 5, 
         // what to show as reaction to your emotion
         show: ['status', 'message', 'image', 'song'] 
     },
