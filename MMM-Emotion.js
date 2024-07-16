@@ -24,6 +24,9 @@ Module.register("MMM-Emotion", {
         this.historyData['today'] = JSON.parse(history.today);
         this.historyData['yesterday'] = JSON.parse(history.today);
         this.historyData['before_yesterday'] = JSON.parse(history.today);
+
+        Log.log("Today: "+ this.historyData['today'])
+        Log.log("Today Happy: "+ this.historyData['today']['happy'])
     },
 
     HistoryChart: function(){
