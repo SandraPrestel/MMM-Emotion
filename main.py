@@ -76,10 +76,10 @@ camera_config = picam2.create_preview_configuration(main={"format": 'XRGB8888', 
 picam2.configure(camera_config)
 picam2.start()
 
-# TODO: remove next lines (only for debugging)
-time.sleep(2)
-picam2.capture_file("testPython.jpg")
-to_node("status", "Testimage saved...")
+## next lines only for debugging
+#time.sleep(2)
+#picam2.capture_file("testPython.jpg")
+#to_node("status", "Testimage saved...")
 
 
 # do the emotion recognition at the interval and using the model specified in config.js
@@ -87,7 +87,7 @@ while True:
     # capture frame and detect faces
     img = picam2.capture_array()
     greyImg = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-    faces = FACE_DETECTOR.detectMultiScale(image=greyImg, scaleFactor=1.1, minNeighbors=5, minSize=(30,30))     #TODO: optimize parameters
+    faces = FACE_DETECTOR.detectMultiScale(image=greyImg, scaleFactor=1.2, minNeighbors=5, minSize=(30,30))
     to_node("status", "Faces detected...")
 
     # only detect emotions for one face
