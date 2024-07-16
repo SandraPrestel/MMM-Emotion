@@ -20,6 +20,7 @@
     },
     "homepage": "https://github.com/SandraPrestel/MMM-Emotion#readme",
     "dependencies": {
-      "python-shell": "latest"
+      "python-shell": "latest",
+      "chart.js": "latest"
       }
   }

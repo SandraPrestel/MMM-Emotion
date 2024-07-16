@@ -2,6 +2,11 @@ Module.register("MMM-Emotion", {
 
     currentEmotion : "",
     displayMessage : "keine Emotion erkannt",
+    historyData : {
+        'today': {}, 
+        'yesterday': {}, 
+        'before_yesterday': {}
+    },
 
     // default config values
     defaults: {
@@ -12,7 +17,43 @@ Module.register("MMM-Emotion", {
         // how many detections should be used to determine the current emotion
         averageOver: 5, 
         // what to show as reaction to your emotion
-        show: ['status', 'message', 'image', 'song'] 
+        show: ['status', 'message', 'image', 'song', 'history'] 
+    },
+
+    saveHistory: function(history){
+        this.historyData['today'] = JSON.parse(history.today);
+        this.historyData['yesterday'] = JSON.parse(history.today);
+        this.historyData['before_yesterday'] = JSON.parse(history.today);
+    },
+
+    HistoryChart: function(){
+        var chart = document.createElement("div");
+        chart.className = "chart";
+		chart.style.width = "50px";		//TODO: move to CSS
+		chart.style.height = "50px";	//TODO: move to CSS
+
+        var ctx = document.createElement("canvas");
+		chart.appendChild(ctx);
+
+        chartObject = new Chart(ctx, {
+			type: 'radar',
+			data: {
+				labels: [
+				  'Happy',
+				  'Sad'
+				],
+				datasets: [{
+				    label: 'Today',
+				    data: [this.historyData['today']['happy'], this.historyData['today']['sad']],
+				    backgroundColor: ['rgba(255, 99, 132, 0.2)'],
+                    borderColor: 'rgb(255, 99, 132)',
+                    pointBackgroundColor: 'rgb(255, 99, 132)',
+                    pointBorderColor: '#fff'
+				}]
+			}
+		  });
+
+		  return chart;
     },
 
     socketNotificationReceived: function(notification, payload){
@@ -25,12 +66,12 @@ Module.register("MMM-Emotion", {
                 //TODO: Different reactions based on the emotions
                 this.displayMessage = this.currentEmotion
 
-                //TODO: Display history
+                // Display history
+                this.saveHistory(payload.emotion.history)
 
                 this.updateDom()
             }
         }
-        
     },
 
     start: function() {
@@ -55,6 +96,8 @@ Module.register("MMM-Emotion", {
         var message = document.createElement("message");
         message.innerHTML = this.displayMessage;
         wrapper.appendChild(message);
+
+        wrapper.appendChild(this.HistoryChart());
 
         return wrapper;
     },
