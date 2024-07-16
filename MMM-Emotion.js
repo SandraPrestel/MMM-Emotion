@@ -58,6 +58,7 @@ Module.register("MMM-Emotion", {
         var ctx = document.createElement("canvas");
 		chart.appendChild(ctx);
 
+        //TODO: Alle Daten einfügen + Anzeigeeinstellungen
         chartObject = new Chart(ctx, {
 			type: 'radar',
 			data: {
