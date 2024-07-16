@@ -3,9 +3,9 @@ Module.register("MMM-Emotion", {
     currentEmotion : "",
     displayMessage : "keine Emotion erkannt",
     historyData : {
-        'today': {'angry':1, 'disgust':1, 'fear':1, 'happy':1, 'neutral':1, 'sad':1, 'surprise':1}, 
-        'yesterday': {'angry':1, 'disgust':1, 'fear':1, 'happy':1, 'neutral':1, 'sad':1, 'surprise':1}, 
-        'before_yesterday': {'angry':1, 'disgust':1, 'fear':1, 'happy':1, 'neutral':1, 'sad':1, 'surprise':1}
+        'today': {'angry':0, 'disgust':0, 'fear':0, 'happy':0, 'neutral':0, 'sad':0, 'surprise':0}, 
+        'yesterday': {'angry':0, 'disgust':0, 'fear':0, 'happy':0, 'neutral':0, 'sad':0, 'surprise':0}, 
+        'before_yesterday': {'angry':0, 'disgust':0, 'fear':0, 'happy':0, 'neutral':0, 'sad':0, 'surprise':0}
     },
 
     // default config values
@@ -21,9 +21,29 @@ Module.register("MMM-Emotion", {
     },
 
     saveHistory: function(history){
-        this.historyData['today'] = JSON.parse(history.today);
-        this.historyData['yesterday'] = JSON.parse(history.today);
-        this.historyData['before_yesterday'] = JSON.parse(history.today);
+        this.historyData['today']['angry'] = JSON.parse(history.today).angry;
+        this.historyData['today']['disgust'] = JSON.parse(history.today).disgust;
+        this.historyData['today']['fear'] = JSON.parse(history.today).fear;
+        this.historyData['today']['happy'] = JSON.parse(history.today).happy;
+        this.historyData['today']['neutral'] = JSON.parse(history.today).neutral;
+        this.historyData['today']['sad'] = JSON.parse(history.today).sad;
+        this.historyData['today']['surprise'] = JSON.parse(history.today).surprise;
+
+        this.historyData['yesterday']['angry'] = JSON.parse(history.yesterday).angry;
+        this.historyData['yesterday']['disgust'] = JSON.parse(history.yesterday).disgust;
+        this.historyData['yesterday']['fear'] = JSON.parse(history.yesterday).fear;
+        this.historyData['yesterday']['happy'] = JSON.parse(history.yesterday).happy;
+        this.historyData['yesterday']['neutral'] = JSON.parse(history.yesterday).neutral;
+        this.historyData['yesterday']['sad'] = JSON.parse(history.yesterday).sad;
+        this.historyData['yesterday']['surprise'] = JSON.parse(history.yesterday).surprise;
+
+        this.historyData['before_yesterday']['angry'] = JSON.parse(history.before_yesterday).angry;
+        this.historyData['before_yesterday']['disgust'] = JSON.parse(history.before_yesterday).disgust;
+        this.historyData['before_yesterday']['fear'] = JSON.parse(history.before_yesterday).fear;
+        this.historyData['before_yesterday']['happy'] = JSON.parse(history.before_yesterday).happy;
+        this.historyData['before_yesterday']['neutral'] = JSON.parse(history.before_yesterday).neutral;
+        this.historyData['before_yesterday']['sad'] = JSON.parse(history.before_yesterday).sad;
+        this.historyData['before_yesterday']['surprise'] = JSON.parse(history.before_yesterday).surprise;
 
         Log.log("Today: "+ this.historyData['today'])
         Log.log("Today Happy: "+ this.historyData['today']['happy'])
