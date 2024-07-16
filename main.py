@@ -5,6 +5,8 @@ import inspect
 import time
 import signal
 from collections import Counter
+import csv
+from datetime import date, timedelta, datetime
 
 # video and image packages
 import cv2
@@ -12,16 +14,11 @@ from picamera2 import Picamera2
 
 # machine learning packages
 import numpy as np
-import tensorflow as tf
-import keras
 from keras.models import load_model
-import torch
+import pandas as pd
 
 # Emotion Recognition models
 from deepface import DeepFace
-from transformers import (AutoFeatureExtractor,
-                          AutoModelForImageClassification,
-                          AutoConfig)
 
 
 # get module configuration, configure shutdown mechanism and set global variables
@@ -31,7 +28,7 @@ PATH_TO_FILE = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentfr
 
 # track emotions of last 5 minutes in a FIFO list
 detected_emotions = []  
-detected_emotion = "no emotion detected"
+currentEmotion = ""
 
 def to_node(type, message):
     """Convert message to json and print (node helper will read from stdout)"""
@@ -49,6 +46,42 @@ def signalHandler(signal, frame):
 def most_frequent(List):
     occurence_count = Counter(List)
     return occurence_count.most_common(1)[0][0]
+
+def update_history(emotion):
+    today = str(date.today())
+    currentTime = str(datetime.now().time())
+
+    #add emotion to CSV with date and time
+    filename = PATH_TO_FILE + '/history_data.csv'
+    newRow = [[today, currentTime, emotion]]
+
+    with open(filename, 'a', newline='') as csvfile:
+        csvwriter = csv.writer(csvfile, quoting=csv.QUOTE_ALL)
+        csvwriter.writerows(newRow)
+
+def recent_history():
+    # get count of emotions of today and previous two days
+    today = str(date.today())
+    yesterday = str(date.today()- timedelta(days=1))
+    before_yesterday = str(date.today()- timedelta(days=2))
+
+    filename = PATH_TO_FILE + '/history_data.csv'
+
+    df = pd.read_csv(filename)
+    df_today = df.loc[df['Day'] == today]
+    df_yesterday = df.loc[df['Day'] == yesterday] 
+    df_before_yesterday = df.loc[df['Day'] == before_yesterday] 
+
+    df_emotions_today = df_today.value_counts('Emotion')
+    df_emotions_yesterday = df_yesterday.value_counts('Emotion')
+    df_emotions_before_yesterday = df_before_yesterday.value_counts('Emotion')
+
+    # return in JSON form
+    history = {"today": df_emotions_today.to_json(), 
+               "yesterday": df_emotions_yesterday.to_json(),
+               "before_yesterday": df_emotions_before_yesterday.to_json()}
+    
+    return history
 
 signal.signal(signal.SIGINT, signalHandler)
 closeSafe = False
@@ -81,7 +114,6 @@ picam2.start()
 #picam2.capture_file("testPython.jpg")
 #to_node("status", "Testimage saved...")
 
-
 # do the emotion recognition at the interval and using the model specified in config.js
 while True:
     # capture frame and detect faces
@@ -102,7 +134,8 @@ while True:
         match USED_MODEL:
             case 'DeepFace':
                 faceAnalysis = DeepFace.analyze(faceRegion, actions="emotion", enforce_detection=False)
-                detected_emotions.insert(0, faceAnalysis[0]['dominant_emotion'])   # add to front of list
+                currentEmotion = faceAnalysis[0]['dominant_emotion']
+                detected_emotions.insert(0, currentEmotion)   # add to front of list
                 to_node("status", "Detection completed...")
 
             case 'Kaggle':
@@ -113,7 +146,8 @@ while True:
                 to_node("status", "Image processed...")
 
                 predictions = kaggleModel.predict(faceAsNPArray, verbose = 0)
-                detected_emotions.insert(0, kaggleLabels[np.argmax(predictions)])  # add to front of list
+                currentEmotion = kaggleLabels[np.argmax(predictions)]
+                detected_emotions.insert(0, currentEmotion)  # add to front of list
                 to_node("status", "Detection completed...")
         
         # make sure that the list is max. as long as configured
@@ -121,6 +155,8 @@ while True:
             detected_emotions.pop()     # remove last item = oldest entry
 
         to_node("status", "List of emotions: "+str(detected_emotions))
+
+        update_history(currentEmotion)
 
         returnMessage = most_frequent(detected_emotions)
 
@@ -130,8 +166,13 @@ while True:
     elif (noFaces > 1):
         returnMessage = "multiple Faces detected"
 
+    history = recent_history()
+
+    result = {'message': returnMessage, 'history': history}
+    to_node("status", "result: "+str(result))
+
     # return the result to the mirror
-    to_node('result', {'emotion': returnMessage})
+    to_node('result', {'emotion': result})
 
     # close the loop when mirror is shut down
     if closeSafe == True:

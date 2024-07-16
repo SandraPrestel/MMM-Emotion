@@ -16,14 +16,19 @@ Module.register("MMM-Emotion", {
     },
 
     socketNotificationReceived: function(notification, payload){
-        // only change the display if the emotion has changed
-        if (payload.emotion !== this.currentEmotion){
-            this.currentEmotion = payload.emotion
 
-            //TODO: Different reactions based on the emotions
-            this.displayMessage = this.currentEmotion
+        if(notification === 'emotion') {
+            // only change the display if the emotion has changed
+            if (payload.emotion.message !== this.currentEmotion){
+                this.currentEmotion = payload.emotion.message
 
-            this.updateDom()
+                //TODO: Different reactions based on the emotions
+                this.displayMessage = this.currentEmotion
+
+                //TODO: Display history
+
+                this.updateDom()
+            }
         }
         
     },

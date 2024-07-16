@@ -25,9 +25,8 @@ module.exports = NodeHelper.create({
           }
 
           if (message.hasOwnProperty('result')) {
-              //console.log("[" + self.name + "] " + (message.result.emotion));
               self.sendSocketNotification('emotion', {
-                emotion: message.result.emotion     //TODO: make sure this is a string
+                emotion: message.result.emotion
               }
             );
           } else if (message.hasOwnProperty('error')) {
@@ -72,6 +71,9 @@ module.exports = NodeHelper.create({
                 this.python_start();
             };
         };
+
+
+
     }
 
 });
