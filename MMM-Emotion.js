@@ -3,9 +3,9 @@ Module.register("MMM-Emotion", {
     currentEmotion : "",
     displayMessage : "keine Emotion erkannt",
     historyData : {
-        'today': {}, 
-        'yesterday': {}, 
-        'before_yesterday': {}
+        'today': {'angry':1, 'disgust':1, 'fear':1, 'happy':1, 'neutral':1, 'sad':1, 'surprise':1}, 
+        'yesterday': {'angry':1, 'disgust':1, 'fear':1, 'happy':1, 'neutral':1, 'sad':1, 'surprise':1}, 
+        'before_yesterday': {'angry':1, 'disgust':1, 'fear':1, 'happy':1, 'neutral':1, 'sad':1, 'surprise':1}
     },
 
     // default config values
@@ -32,8 +32,8 @@ Module.register("MMM-Emotion", {
     HistoryChart: function(){
         var chart = document.createElement("div");
         chart.className = "chart";
-		chart.style.width = "50px";		//TODO: move to CSS
-		chart.style.height = "50px";	//TODO: move to CSS
+		chart.style.width = "300px";		//TODO: move to CSS
+		chart.style.height = "300px";	//TODO: move to CSS
 
         var ctx = document.createElement("canvas");
 		chart.appendChild(ctx);

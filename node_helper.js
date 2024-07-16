@@ -11,6 +11,8 @@ module.exports = NodeHelper.create({
     python_start: function(){
         const self = this;
 
+        console.log("Starting Python Shell")
+        
         // create a shell to run our python script in
         const pyshell = new PythonShell('modules/' + this.name + '/main.py', { 
             mode: 'json', 
