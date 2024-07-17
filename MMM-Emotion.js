@@ -58,22 +58,60 @@ Module.register("MMM-Emotion", {
         var ctx = document.createElement("canvas");
 		chart.appendChild(ctx);
 
-        //TODO: Alle Daten einfügen + Anzeigeeinstellungen
+        //TODO: Anzeigeeinstellungen (CSS)
         chartObject = new Chart(ctx, {
 			type: 'radar',
 			data: {
-				labels: [
-				  'Happy',
-				  'Sad'
-				],
+				labels: ['Anger', 
+                    'Disgust', 
+                    'Fear', 
+                    'Happy', 
+                    'Neutral', 
+                    'Sad', 
+                    'Surprise'],
 				datasets: [{
 				    label: 'Today',
-				    data: [this.historyData['today']['happy'], this.historyData['today']['sad']],
+				    data: [this.historyData['today']['angry'], 
+                        this.historyData['today']['disgust'],
+                        this.historyData['today']['fear'],
+                        this.historyData['today']['happy'],
+                        this.historyData['today']['neutral'],
+                        this.historyData['today']['sad'],
+                        this.historyData['today']['surprise']],
+                    fill: true,
 				    backgroundColor: ['rgba(255, 99, 132, 0.2)'],
                     borderColor: 'rgb(255, 99, 132)',
-                    pointBackgroundColor: 'rgb(255, 99, 132)',
-                    pointBorderColor: '#fff'
-				}]
+                    pointBackgroundColor: 'rgb(255, 99, 132)'
+				},
+                {
+				    label: 'Yesterday',
+				    data: [this.historyData['yesterday']['angry'], 
+                        this.historyData['yesterday']['disgust'],
+                        this.historyData['yesterday']['fear'],
+                        this.historyData['yesterday']['happy'],
+                        this.historyData['yesterday']['neutral'],
+                        this.historyData['yesterday']['sad'],
+                        this.historyData['yesterday']['surprise']],
+                    fill: true,
+				    backgroundColor: ['rgba(54, 162, 235, 0.2)'],
+                    borderColor: 'rgb(54, 162, 235)',
+                    pointBackgroundColor: 'rgb(54, 162, 235)'
+				},
+                {
+				    label: 'Day before Yesterday',
+				    data: [this.historyData['before_yesterday']['angry'], 
+                        this.historyData['before_yesterday']['disgust'],
+                        this.historyData['before_yesterday']['fear'],
+                        this.historyData['before_yesterday']['happy'],
+                        this.historyData['before_yesterday']['neutral'],
+                        this.historyData['before_yesterday']['sad'],
+                        this.historyData['before_yesterday']['surprise']],
+                    fill: true,
+				    backgroundColor: ['rgba(100, 170, 103, 0.2)'],
+                    borderColor: 'rgb(100, 170, 103)',
+                    pointBackgroundColor: 'rgb(100, 170, 103)'
+				}
+                ]
 			}
 		  });
 
