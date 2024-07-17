@@ -53,7 +53,7 @@ module.exports = NodeHelper.create({
     },
 
     stop: function () {
-      Log.log("Shutting down MMM-Emotion: calling Python termination")
+      console.log("Shutting down MMM-Emotion: calling Python termination")
       this.destroy();
     },
   

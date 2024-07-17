@@ -116,6 +116,10 @@ picam2.start()
 
 # do the emotion recognition at the interval and using the model specified in config.js
 while True:
+    
+    if closeSafe == True:
+        break
+
     # capture frame and detect faces
     img = picam2.capture_array()
     greyImg = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
