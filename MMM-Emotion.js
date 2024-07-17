@@ -79,7 +79,7 @@ Module.register("MMM-Emotion", {
                         this.historyData['today']['sad'],
                         this.historyData['today']['surprise']],
                     fill: true,
-				    backgroundColor: ['rgba(255, 99, 132, 0.2)'],
+				    backgroundColor: ['rgba(255, 99, 132, 0.4)'],
                     borderColor: 'rgb(255, 99, 132)',
                     pointBackgroundColor: 'rgb(255, 99, 132)'
 				},
@@ -93,7 +93,7 @@ Module.register("MMM-Emotion", {
                         this.historyData['yesterday']['sad'],
                         this.historyData['yesterday']['surprise']],
                     fill: true,
-				    backgroundColor: ['rgba(54, 162, 235, 0.2)'],
+				    backgroundColor: ['rgba(54, 162, 235, 0.4)'],
                     borderColor: 'rgb(54, 162, 235)',
                     pointBackgroundColor: 'rgb(54, 162, 235)'
 				},
@@ -107,11 +107,21 @@ Module.register("MMM-Emotion", {
                         this.historyData['before_yesterday']['sad'],
                         this.historyData['before_yesterday']['surprise']],
                     fill: true,
-				    backgroundColor: ['rgba(100, 170, 103, 0.2)'],
+				    backgroundColor: ['rgba(100, 170, 103, 0.4)'],
                     borderColor: 'rgb(100, 170, 103)',
                     pointBackgroundColor: 'rgb(100, 170, 103)'
 				}
-                ]
+                ],
+                options: {
+                    scales: {
+                        r: {
+                            ticks: {
+                                color: 'rgb(255,255,255)',
+                                backdropColor: 'rgb(0, 0, 0)'
+                            }
+                        }
+                    }
+                }
 			}
 		  });
 
