@@ -9,11 +9,7 @@ var pythonStarted = false
 
 module.exports = NodeHelper.create({
     pyshell: null,
-    py_process : null,
-
-    start: function() {
-      this.python_start();
-    },
+    py_process: null,
 
     python_start: function(){
         const self = this;
