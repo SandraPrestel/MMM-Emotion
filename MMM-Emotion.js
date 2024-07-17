@@ -52,8 +52,8 @@ Module.register("MMM-Emotion", {
     HistoryChart: function(){
         var chart = document.createElement("div");
         chart.className = "chart";
-		chart.style.width = "300px";		//TODO: move to CSS
-		chart.style.height = "300px";	//TODO: move to CSS
+		chart.style.width = "500px";		//TODO: move to CSS
+		chart.style.height = "500px";	//TODO: move to CSS
 
         var ctx = document.createElement("canvas");
 		chart.appendChild(ctx);
