@@ -56,7 +56,7 @@ module.exports = NodeHelper.create({
         });
     },
 
-    python_stop: function () {
+    stop: function () {
       console.log("Shutting down MMM-Emotion: calling Python termination")
       this.destroy();
     },
