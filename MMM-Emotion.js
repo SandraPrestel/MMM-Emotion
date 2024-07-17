@@ -117,8 +117,7 @@ Module.register("MMM-Emotion", {
                     scales: {
                         r: {
                             ticks: {
-                                color: 'rgb(255,255,255)',
-                                backdropColor: 'rgb(0, 0, 0)'
+                                display: false
                             }
                         }
                     }
