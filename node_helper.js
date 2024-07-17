@@ -8,20 +8,21 @@ const onExit = require('signal-exit');
 var pythonStarted = false
 
 module.exports = NodeHelper.create({
+    pyshell: null,
     python_start: function(){
         const self = this;
 
         console.log("Starting Python Shell")
         
         // create a shell to run our python script in
-        const pyshell = new PythonShell('modules/' + this.name + '/main.py', { 
+        self.pyshell = new PythonShell('modules/' + this.name + '/main.py', { 
             mode: 'json', 
             args: [JSON.stringify(this.config)],
             pythonPath: '/home/medicalmirror/mmenv/bin/python3'
         });
         
         // whenever the script returns a recognized emotion, send it on to our module
-        pyshell.on('message', function(message){
+        self.pyshell.on('message', function(message){
           if (message.hasOwnProperty('status')){
             console.log("[" + self.name + "] " + message.status);
           }
@@ -41,7 +42,7 @@ module.exports = NodeHelper.create({
         });
 
         // shutdown the python shell
-        pyshell.end(function(err) {
+        self.pyshell.end(function(err) {
             if (err) throw err;
             console.log("[" + self.name + "] " + 'finished running...');
         });
@@ -57,7 +58,7 @@ module.exports = NodeHelper.create({
   
     destroy: function () {
       console.log('[' + this.name + '] ' + 'Terminate python');
-      this.pyshell.childProcess.kill();
+      this.pyshell.childprocess.kill();
     },
 
     // Subclass socketNotificationReceived
