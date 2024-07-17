@@ -52,13 +52,14 @@ module.exports = NodeHelper.create({
         });
     },
 
-    python_stop: function () {
+    stop: function () {
+      Log.log("Shutting down MMM-Emotion: calling Python termination")
       this.destroy();
     },
   
     destroy: function () {
       console.log('[' + this.name + '] ' + 'Terminate python');
-      this.pyshell.kill();
+      this.pyshell.kill('SIGINT');
     },
 
     // Subclass socketNotificationReceived

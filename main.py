@@ -43,6 +43,9 @@ def signalHandler(signal, frame):
     global closeSafe
     closeSafe = True
 
+signal.signal(signal.SIGINT, signalHandler)
+closeSafe = False
+
 def most_frequent(List):
     occurence_count = Counter(List)
     return occurence_count.most_common(1)[0][0]
@@ -82,9 +85,6 @@ def recent_history():
                "before_yesterday": df_emotions_before_yesterday.to_json()}
     
     return history
-
-signal.signal(signal.SIGINT, signalHandler)
-closeSafe = False
 
 to_node("status", "Module setup...")
 to_node("status", "Selected model " + USED_MODEL + "...")
