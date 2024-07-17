@@ -17,28 +17,28 @@ module.exports = NodeHelper.create({
         console.log("Starting Python Shell")
         
         // create a shell to run our python script in
-        self.pyshell = new PythonShell('modules/' + this.name + '/main.py', { 
+        this.pyshell = new PythonShell('modules/' + this.name + '/main.py', { 
             mode: 'json', 
             args: [JSON.stringify(this.config)],
             pythonPath: '/home/medicalmirror/mmenv/bin/python3'
         });
 
-        self.py_process = self.pyshell.childprocess;
+        this.py_process = this.pyshell.childprocess;
         
         // whenever the script returns a recognized emotion, send it on to our module
-        self.pyshell.on('message', function(message){
+        this.pyshell.on('message', function(message){
           if (message.hasOwnProperty('status')){
-            console.log("[" + self.name + "] " + message.status);
+            console.log("[" + this.name + "] " + message.status);
           }
 
           if (message.hasOwnProperty('result')) {
-              self.sendSocketNotification('emotion', {
+            this.sendSocketNotification('emotion', {
                 emotion: message.result.emotion
               }
             );
           } else if (message.hasOwnProperty('error')) {
-            console.log("[" + self.name + "] " + message.error.err_msg)
-              self.sendSocketNotification('emotion', {
+            console.log("[" + this.name + "] " + message.error.err_msg)
+            this.sendSocketNotification('emotion', {
                 error: message.error.err_msg
               }
             );
@@ -46,13 +46,13 @@ module.exports = NodeHelper.create({
         });
 
         // shutdown the python shell
-        self.pyshell.end(function(err) {
+        this.pyshell.end(function(err) {
             if (err) throw err;
-            console.log("[" + self.name + "] " + 'finished running...');
+            console.log("[" + this.name + "] " + 'finished running...');
         });
         
         onExit(function (_code, _signal) {
-          self.destroy();
+          this.destroy();
         });
     },
 
