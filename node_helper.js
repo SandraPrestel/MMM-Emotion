@@ -9,6 +9,8 @@ var pythonStarted = false
 
 module.exports = NodeHelper.create({
     pyshell: null,
+    py_process : null,
+
     python_start: function(){
         const self = this;
 
@@ -20,6 +22,8 @@ module.exports = NodeHelper.create({
             args: [JSON.stringify(this.config)],
             pythonPath: '/home/medicalmirror/mmenv/bin/python3'
         });
+
+        py_process = self.pyshell.childprocess;
         
         // whenever the script returns a recognized emotion, send it on to our module
         self.pyshell.on('message', function(message){
@@ -52,14 +56,14 @@ module.exports = NodeHelper.create({
         });
     },
 
-    stop: function () {
+    python_stop: function () {
       console.log("Shutting down MMM-Emotion: calling Python termination")
       this.destroy();
     },
   
     destroy: function () {
       console.log('[' + this.name + '] ' + 'Terminate python');
-      this.pyshell.kill('SIGINT');
+      this.py_process.kill('SIGINT');
     },
 
     // Subclass socketNotificationReceived
