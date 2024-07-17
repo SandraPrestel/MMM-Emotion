@@ -63,7 +63,8 @@ module.exports = NodeHelper.create({
   
     destroy: function () {
       console.log('[' + this.name + '] ' + 'Terminate python');
-      this.py_process.kill('SIGINT');
+      err = this.py_process.kill('SIGINT');
+      console.log('[' + this.name + '] ' + 'err');
     },
 
     // Subclass socketNotificationReceived
