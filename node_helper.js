@@ -11,6 +11,10 @@ module.exports = NodeHelper.create({
     pyshell: null,
     py_process : null,
 
+    start: function() {
+      this.python_start();
+    },
+
     python_start: function(){
         const self = this;
 
@@ -23,7 +27,7 @@ module.exports = NodeHelper.create({
             pythonPath: '/home/medicalmirror/mmenv/bin/python3'
         });
 
-        py_process = self.pyshell.childprocess;
+        self.py_process = self.pyshell.childprocess;
         
         // whenever the script returns a recognized emotion, send it on to our module
         self.pyshell.on('message', function(message){
