@@ -113,13 +113,8 @@ Module.register("MMM-Emotion", {
 				}
             ]},
             options: {
-                legend: {display: false},
                 scales: {
-                    r: {
-                        ticks: {
-                            display: false
-                        }
-                    }
+                    ticks: {display: false}
                 }
             }
 		  });
