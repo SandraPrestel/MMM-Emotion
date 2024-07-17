@@ -110,19 +110,18 @@ Module.register("MMM-Emotion", {
 				    backgroundColor: ['rgba(255, 99, 132, 0.4)'],
                     borderColor: 'rgb(255, 99, 132)',
                     pointBackgroundColor: 'rgb(255, 99, 132)'
-				},
-                ],
-                options: {
-                    legend: {display: false},
-                    scales: {
-                        r: {
-                            ticks: {
-                                display: false
-                            }
+				}
+            ]},
+            options: {
+                legend: {display: false},
+                scales: {
+                    r: {
+                        ticks: {
+                            display: false
                         }
                     }
                 }
-			}
+            }
 		  });
 
 		  return chart;
