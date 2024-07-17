@@ -58,6 +58,8 @@ def update_history(emotion):
     filename = PATH_TO_FILE + '/history_data.csv'
     newRow = [[today, currentTime, emotion]]
 
+    to_node("status", "Adding to History"+str(newRow))
+
     with open(filename, 'a', newline='') as csvfile:
         csvwriter = csv.writer(csvfile, quoting=csv.QUOTE_ALL)
         csvwriter.writerows(newRow)
@@ -116,7 +118,7 @@ picam2.start()
 
 # do the emotion recognition at the interval and using the model specified in config.js
 while True:
-    
+
     if closeSafe == True:
         break
 

@@ -62,7 +62,7 @@ module.exports = NodeHelper.create({
     },
   
     destroy: function () {
-      console.log('[' + this.name + '] ' + 'Terminate python');
+      console.log('[' + this.name + '] ' + 'Terminate python...');
       this.py_process.kill('SIGINT');
       console.log('[' + this.name + '] ' + 'Kill Message sent');
     },
