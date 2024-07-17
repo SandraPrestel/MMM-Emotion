@@ -60,7 +60,7 @@ def update_history(emotion):
 
     to_node("status", "Adding to History"+str(newRow))
 
-    with open(filename, 'a', newline='') as csvfile:
+    with open(filename, 'a') as csvfile:
         csvwriter = csv.writer(csvfile, quoting=csv.QUOTE_ALL)
         csvwriter.writerows(newRow)
 
