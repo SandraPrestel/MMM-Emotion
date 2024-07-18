@@ -61,79 +61,6 @@ Module.register("MMM-Emotion", {
         Log.log("Today Happy: "+ this.historyData['today']['happy'])
     },
 
-    HistoryChart: function(){
-        var chart = document.createElement("div");
-        chart.className = "chart";
-		chart.style.width = "500px";		//TODO: move to CSS
-		chart.style.height = "500px";	//TODO: move to CSS
-
-        var ctx = document.createElement("canvas");
-		chart.appendChild(ctx);
-
-        //TODO: Anzeigeeinstellungen (CSS)
-        chartObject = new Chart(ctx, {
-			type: 'radar',
-			data: {
-				labels: ['Anger', 
-                    'Disgust', 
-                    'Fear', 
-                    'Happy', 
-                    'Neutral', 
-                    'Sad', 
-                    'Surprise'],
-				datasets: [{
-				    label: 'Day before Yesterday',
-				    data: [this.historyData['before_yesterday']['angry'], 
-                        this.historyData['before_yesterday']['disgust'],
-                        this.historyData['before_yesterday']['fear'],
-                        this.historyData['before_yesterday']['happy'],
-                        this.historyData['before_yesterday']['neutral'],
-                        this.historyData['before_yesterday']['sad'],
-                        this.historyData['before_yesterday']['surprise']],
-                    fill: true,
-				    backgroundColor: ['rgba(100, 170, 103, 0.4)'],
-                    borderColor: 'rgb(100, 170, 103)',
-                    pointBackgroundColor: 'rgb(100, 170, 103)'
-				},
-                {
-				    label: 'Yesterday',
-				    data: [this.historyData['yesterday']['angry'], 
-                        this.historyData['yesterday']['disgust'],
-                        this.historyData['yesterday']['fear'],
-                        this.historyData['yesterday']['happy'],
-                        this.historyData['yesterday']['neutral'],
-                        this.historyData['yesterday']['sad'],
-                        this.historyData['yesterday']['surprise']],
-                    fill: true,
-				    backgroundColor: ['rgba(54, 162, 235, 0.4)'],
-                    borderColor: 'rgb(54, 162, 235)',
-                    pointBackgroundColor: 'rgb(54, 162, 235)'
-				},
-                {
-				    label: 'Today',
-				    data: [this.historyData['today']['angry'], 
-                        this.historyData['today']['disgust'],
-                        this.historyData['today']['fear'],
-                        this.historyData['today']['happy'],
-                        this.historyData['today']['neutral'],
-                        this.historyData['today']['sad'],
-                        this.historyData['today']['surprise']],
-                    fill: true,
-				    backgroundColor: ['rgba(255, 99, 132, 0.4)'],
-                    borderColor: 'rgb(255, 99, 132)',
-                    pointBackgroundColor: 'rgb(255, 99, 132)'
-				}
-            ]},
-            options: {
-                scales: {
-                    ticks: {display: false}
-                }
-            }
-		  });
-
-		  return chart;
-    },
-
     socketNotificationReceived: function(notification, payload){
 
         if(notification === 'emotion') {
@@ -217,7 +144,7 @@ Module.register("MMM-Emotion", {
     moduleImage: function(){
         var imageDiv = document.createElement("img");
 		imageDiv.className = "imageModule";
-        imageDiv.style.height = "250px";    //TODO: move to CSS
+        imageDiv.style.height = "200px";    //TODO: move to CSS
 
         var imgPath = ""
         if (this.emotions.includes(this.currentEmotion)){
@@ -232,17 +159,101 @@ Module.register("MMM-Emotion", {
     },
 
     moduleSong: function(){
-        var songDiv = document.createElement("img");
-        songDiv.className = "qrModule";
-        songDiv.style.height = "100px";    //TODO: move to CSS
+        var songDiv = document.createElement("div");
+        songDiv.className = "songModule";
+
+        // Header
+        var songHeaderDiv = document.createElement("div");
+        songHeaderDiv.className = "textDiv";
+        songHeaderDiv.innerHTML = "Recommended Music";
+        songDiv.appendChild(songHeaderDiv);
+
+        // QR Code
+        var qrDiv = document.createElement("img");
+        qrDiv.className = "qrCode";
+        qrDiv.style.height = "80px";    //TODO: move to CSS
 
         if (this.emotions.includes(this.currentEmotion)){
-            songDiv.src = this.qr_code;
+            qrDiv.src = this.qr_code;
         } else {
-            songDiv.innerHTML = '<i class="fa-solid fa-xmark"></i>';
+            qrDiv.innerHTML = '<i class="fa-solid fa-xmark"></i>';
         }
+        songDiv.appendChild(qrDiv);
 
         return songDiv;
+    },
+
+    moduleHistory: function(){
+        var chart = document.createElement("div");
+        chart.className = "chart";
+		chart.style.width = "500px";		//TODO: move to CSS
+		chart.style.height = "500px";	//TODO: move to CSS
+
+        var ctx = document.createElement("canvas");
+		chart.appendChild(ctx);
+
+        //TODO: Anzeigeeinstellungen (CSS)
+        chartObject = new Chart(ctx, {
+			type: 'radar',
+			data: {
+				labels: ['Anger', 
+                    'Disgust', 
+                    'Fear', 
+                    'Happy', 
+                    'Neutral', 
+                    'Sad', 
+                    'Surprise'],
+				datasets: [{
+				    label: 'Day before Yesterday',
+				    data: [this.historyData['before_yesterday']['angry'], 
+                        this.historyData['before_yesterday']['disgust'],
+                        this.historyData['before_yesterday']['fear'],
+                        this.historyData['before_yesterday']['happy'],
+                        this.historyData['before_yesterday']['neutral'],
+                        this.historyData['before_yesterday']['sad'],
+                        this.historyData['before_yesterday']['surprise']],
+                    fill: true,
+				    backgroundColor: ['rgba(100, 170, 103, 0.4)'],
+                    borderColor: 'rgb(100, 170, 103)',
+                    pointBackgroundColor: 'rgb(100, 170, 103)'
+				},
+                {
+				    label: 'Yesterday',
+				    data: [this.historyData['yesterday']['angry'], 
+                        this.historyData['yesterday']['disgust'],
+                        this.historyData['yesterday']['fear'],
+                        this.historyData['yesterday']['happy'],
+                        this.historyData['yesterday']['neutral'],
+                        this.historyData['yesterday']['sad'],
+                        this.historyData['yesterday']['surprise']],
+                    fill: true,
+				    backgroundColor: ['rgba(54, 162, 235, 0.4)'],
+                    borderColor: 'rgb(54, 162, 235)',
+                    pointBackgroundColor: 'rgb(54, 162, 235)'
+				},
+                {
+				    label: 'Today',
+				    data: [this.historyData['today']['angry'], 
+                        this.historyData['today']['disgust'],
+                        this.historyData['today']['fear'],
+                        this.historyData['today']['happy'],
+                        this.historyData['today']['neutral'],
+                        this.historyData['today']['sad'],
+                        this.historyData['today']['surprise']],
+                    fill: true,
+				    backgroundColor: ['rgba(255, 99, 132, 0.4)'],
+                    borderColor: 'rgb(255, 99, 132)',
+                    pointBackgroundColor: 'rgb(255, 99, 132)'
+				}
+            ]},
+            options: {
+                scales: {
+                    ticks: {display: false}
+                }
+            }
+		  });
+
+		  return chart;
     },
 
     // Build the module display
@@ -272,7 +283,7 @@ Module.register("MMM-Emotion", {
         }
 
         if (this.config.show.includes('history')){
-            wrapper.appendChild(this.HistoryChart());
+            wrapper.appendChild(this.moduleHistory());
         }
 
         return wrapper;
