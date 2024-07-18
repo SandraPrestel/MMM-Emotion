@@ -9,13 +9,13 @@ Module.register("MMM-Emotion", {
         'sad': '<i class="fa-regular fa-face-frown-open"></i>', 
         'surprise': '<i class="fa-regular fa-face-surprise"></i>',
         'no': '<i class="fa-solid fa-xmark"></i>'},
-    currentEmotion : "",
-    displayMessage : "keine Emotion erkannt",
+    currentEmotion : "Loading...",
     historyData : {
         'today': {'angry':0, 'disgust':0, 'fear':0, 'happy':0, 'neutral':0, 'sad':0, 'surprise':0}, 
         'yesterday': {'angry':0, 'disgust':0, 'fear':0, 'happy':0, 'neutral':0, 'sad':0, 'surprise':0}, 
         'before_yesterday': {'angry':0, 'disgust':0, 'fear':0, 'happy':0, 'neutral':0, 'sad':0, 'surprise':0}
     },
+    messages : {},
 
     // default config values
     defaults: {
@@ -26,7 +26,8 @@ Module.register("MMM-Emotion", {
         // how many detections should be used to determine the current emotion
         averageOver: 5, 
         // what to show as reaction to your emotion
-        show: ['current', 'message', 'image', 'song', 'history'] 
+        show: ['current', 'message', 'image', 'song', 'history'],
+        messageFile: 'custom_messages.json'
     },
 
     saveHistory: function(history){
@@ -138,14 +139,14 @@ Module.register("MMM-Emotion", {
             if (payload.emotion.message !== this.currentEmotion){
                 this.currentEmotion = payload.emotion.message
 
-                //TODO: Different reactions based on the emotions
-                this.displayMessage = this.currentEmotion
-
                 // Display history
                 this.saveHistory(payload.emotion.history)
 
                 this.updateDom()
             }
+        } else if (notification === 'GOT_MESSAGES'){
+            this.messages = payload.messages;
+            //TODO: UpdateDom necessary?
         }
     },
 
@@ -156,6 +157,11 @@ Module.register("MMM-Emotion", {
 
         this.sendSocketNotification('CONFIG', this.config);
 		Log.info('Starting module: ' + this.name);
+
+        // get messages for emotions
+        if (this.config.show.includes('message')){
+            this.sendSocketNotification('GET_MESSAGES', this.config);
+        } 
     },
 
     // Show current emotion as text and icon
@@ -182,6 +188,15 @@ Module.register("MMM-Emotion", {
         return currentDiv;
     },
 
+    moduleMessage: function(){
+        var messageDiv = document.createElement("div");
+        messageDiv.className = 'MessageModule';
+
+        messageDiv.innerHTML = this.messages[this.currentEmotion];
+
+        return messageDiv;
+    },
+
     // Build the module display
     getDom: function () {
         var wrapper = document.createElement("div");
@@ -197,7 +212,7 @@ Module.register("MMM-Emotion", {
         }
 
         if (this.config.show.includes('message')){
-
+            wrapper.appendChild(this.moduleMessage());
         }
 
         if (this.config.show.includes('image')){

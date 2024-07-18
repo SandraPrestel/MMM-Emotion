@@ -4,6 +4,7 @@
 const NodeHelper = require('node_helper');
 const { PythonShell } = require('python-shell');
 const onExit = require('signal-exit');
+const fs = require("fs");
 
 var pythonStarted = false
 
@@ -67,6 +68,15 @@ module.exports = NodeHelper.create({
       console.log('[' + this.name + '] ' + 'Kill Message sent');
     },
 
+    loadMessages: function () {
+      var filepath = __dirname + '/' + this.config.messageFile;
+      var file_content = JSON.parse(fs.readFileSync(filepath, "utf8"));
+      
+      self.sendSocketNotification('GOT_MESSAGES', {
+        messages: file_content
+      });
+    },
+
     // Subclass socketNotificationReceived
     // handles messages from the module
     socketNotificationReceived: function(notification, payload) {
@@ -79,9 +89,10 @@ module.exports = NodeHelper.create({
                 pythonStarted = true;
                 this.python_start();
             };
-        };
 
-
+        } else if(notification === 'GET_MESSAGES'){
+            this.loadMessages();
+        }
 
     }
 
