@@ -146,6 +146,8 @@ Module.register("MMM-Emotion", {
             }
         } else if (notification === 'GOT_MESSAGES'){
             this.messages = payload.messages;
+
+            Log.log("Got messages: " + payload.messages);
             //TODO: UpdateDom necessary?
         }
     },

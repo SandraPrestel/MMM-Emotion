@@ -71,8 +71,10 @@ module.exports = NodeHelper.create({
     loadMessages: function () {
       var filepath = __dirname + '/' + this.config.messageFile;
       var file_content = JSON.parse(fs.readFileSync(filepath, "utf8"));
-      
-      self.sendSocketNotification('GOT_MESSAGES', {
+
+      console.log(file_content)
+
+      this.sendSocketNotification('GOT_MESSAGES', {
         messages: file_content
       });
     },
