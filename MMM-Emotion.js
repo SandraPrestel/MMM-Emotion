@@ -1,5 +1,14 @@
 Module.register("MMM-Emotion", {
 
+    emotions : ['angry', 'disgust', 'fear', 'happy', 'neutral', 'sad', 'surprise'],
+    icons: {'angry': '<i class="fa-regular fa-face-angry"></i>', 
+        'disgust': '<i class="fa-regular fa-face-grimace"></i>', 
+        'fear': '<i class="fa-regular fa-face-flushed"></i>', 
+        'happy': '<i class="fa-regular fa-face-laugh-beam"></i>', 
+        'neutral': '<i class="fa-regular fa-face-meh"></i>', 
+        'sad': '<i class="fa-regular fa-face-frown-open"></i>', 
+        'surprise': '<i class="fa-regular fa-face-surprise"></i>',
+        'no': '<i class="fa-solid fa-xmark"></i>'},
     currentEmotion : "",
     displayMessage : "keine Emotion erkannt",
     historyData : {
@@ -17,7 +26,7 @@ Module.register("MMM-Emotion", {
         // how many detections should be used to determine the current emotion
         averageOver: 5, 
         // what to show as reaction to your emotion
-        show: ['status', 'message', 'image', 'song', 'history'] 
+        show: ['current', 'message', 'image', 'song', 'history'] 
     },
 
     saveHistory: function(history){
@@ -149,6 +158,30 @@ Module.register("MMM-Emotion", {
 		Log.info('Starting module: ' + this.name);
     },
 
+    // Show current emotion as text and icon
+    moduleEmotion: function(){
+        var currentDiv = document.createElement("div");
+        currentDiv.className = 'currentEmotionModule';
+
+        var iconDiv = document.createElement("div");
+        iconDiv.className = 'iconDiv';
+        var icon = '';
+        if (this.emotions.includes(this.currentEmotion)){
+            icon = this.icons[this.currentEmotion];
+        } else {
+            icon = this.icons['no'];
+        }
+        iconDiv.innerHTML = icon;
+        currentDiv.appendChild(iconDiv);
+
+        var emotionTextDiv = document.createElement("div");
+        emotionTextDiv.className = 'textDiv';
+        emotionTextDiv.innerHTML = 'I feel ' + this.currentEmotion;
+        currentDiv.appendChild(emotionTextDiv);
+
+        return currentDiv;
+    },
+
     // Build the module display
     getDom: function () {
         var wrapper = document.createElement("div");
@@ -159,11 +192,25 @@ Module.register("MMM-Emotion", {
         title.innerHTML = "My Emotions";
         wrapper.appendChild(title);
 
-        var message = document.createElement("message");
-        message.innerHTML = this.displayMessage;
-        wrapper.appendChild(message);
+        if (this.config.show.includes('current')){
+            wrapper.appendChild(this.moduleEmotion());
+        }
 
-        wrapper.appendChild(this.HistoryChart());
+        if (this.config.show.includes('message')){
+
+        }
+
+        if (this.config.show.includes('image')){
+            
+        }
+
+        if (this.config.show.includes('song')){
+            
+        }
+
+        if (this.config.show.includes('history')){
+            wrapper.appendChild(this.HistoryChart());
+        }
 
         return wrapper;
     },
