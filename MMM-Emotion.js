@@ -216,6 +216,10 @@ Module.register("MMM-Emotion", {
 		return imageDiv
     },
 
+    moduleSong: function(){
+        
+    },
+
     // Build the module display
     getDom: function () {
         var wrapper = document.createElement("div");
