@@ -205,7 +205,7 @@ Module.register("MMM-Emotion", {
 
         var imgPath = ""
         if (this.emotions.includes(this.currentEmotion)){
-            imgPath = "/images/" + currentEmotion + ".jpg";
+            imgPath = "/images/" + this.currentEmotion + ".jpg";
         } else {
             imgPath = "/images/" + "none" + ".jpg";
         }
