@@ -180,10 +180,16 @@ while True:
     # return the result to the mirror
     to_node('result', {'emotion': result})
 
+    # wait until interval is passed and check periodically if python should shutdown
+    interval_left = CONFIG['interval']
+    while interval_left > 0:
+        if closeSafe == True:
+            break
+        interval_left -= 15
+        time.sleep(15)
+
     # close the loop when mirror is shut down
     if closeSafe == True:
         break
-
-    time.sleep(CONFIG['interval'])
 
 picam2.stop()
