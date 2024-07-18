@@ -194,7 +194,12 @@ Module.register("MMM-Emotion", {
 
         var emotionTextDiv = document.createElement("div");
         emotionTextDiv.className = 'textDiv';
-        emotionTextDiv.innerHTML = 'I feel ' + this.currentEmotion;
+
+        if (this.emotions.includes(this.currentEmotion)){
+            emotionTextDiv.innerHTML = 'I feel ' + this.currentEmotion;
+        } else {
+            emotionTextDiv.innerHTML = this.currentEmotion;
+        }
         currentDiv.appendChild(emotionTextDiv);
 
         return currentDiv;
