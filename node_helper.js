@@ -88,7 +88,7 @@ module.exports = NodeHelper.create({
 
       console.log("Get QR for emotion " + emotion + " on URL " + target);
 
-      QRCode.toDataURL(`http://${target}`)
+      QRCode.toDataURL(`${target}`)
                 .then(url => { this.sendSocketNotification('GOT_QR', url) })
                 .catch(err => { console.error(err) })
 
