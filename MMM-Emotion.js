@@ -200,12 +200,17 @@ Module.register("MMM-Emotion", {
     },
 
     moduleImage: function(){
-        var imgPath = "/images/" + currentEmotion + ".jpg";
-
         var imageDiv = document.createElement("img");
 		imageDiv.className = "imageModule";
 
-		imageDiv.src = "modules/" + this.name + imgPath;
+        var imgPath = ""
+        if (this.emotions.includes(this.currentEmotion)){
+            imgPath = "/images/" + currentEmotion + ".jpg";
+        } else {
+            imgPath = "/images/" + "none" + ".jpg";
+        }
+
+        imageDiv.src = "modules/" + this.name + imgPath;
 
 		return imageDiv
     },
