@@ -202,6 +202,7 @@ Module.register("MMM-Emotion", {
     moduleImage: function(){
         var imageDiv = document.createElement("img");
 		imageDiv.className = "imageModule";
+        imageDiv.style.height = "500px";    //TODO: move to CSS
 
         var imgPath = ""
         if (this.emotions.includes(this.currentEmotion)){
