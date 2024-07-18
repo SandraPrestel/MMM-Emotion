@@ -148,7 +148,7 @@ Module.register("MMM-Emotion", {
             this.messages = payload.messages;
 
             Log.log("Got messages: " + payload.messages);
-            //TODO: UpdateDom necessary?
+            //TODO: Testing, ob UpdateDom notwendig ist, wenn Messages nach Emotionen ankommen (unwahrscheinlich)
         }
     },
 
