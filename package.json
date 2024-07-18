@@ -21,6 +21,7 @@
     "homepage": "https://github.com/SandraPrestel/MMM-Emotion#readme",
     "dependencies": {
       "python-shell": "latest",
-      "chart.js": "latest"
+      "chart.js": "latest",
+      "qrcode": "^1.5.3"
       }
   }

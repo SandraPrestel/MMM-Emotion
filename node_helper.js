@@ -5,6 +5,8 @@ const NodeHelper = require('node_helper');
 const { PythonShell } = require('python-shell');
 const onExit = require('signal-exit');
 const fs = require("fs");
+const QRCode = require('qrcode')
+const os = require('os')
 
 var pythonStarted = false
 
@@ -79,6 +81,25 @@ module.exports = NodeHelper.create({
       });
     },
 
+    loadQR: function(emotion) {
+      var filepath = __dirname + '/' + this.config.songFile;
+      var file_content = JSON.parse(fs.readFileSync(filepath, "utf8"));
+      var target = file_content[emotion];
+
+      console.log("Get QR for emotion " + emotion + " on URL " + target);
+
+      QRCode.toDataURL(`http://${this.getIP()}:${config.port}${target}`)
+                .then(url => { this.sendSocketNotification('GOT_QR', url) })
+                .catch(err => { console.error(err) })
+
+    
+    },
+
+    getIP: function() {
+      let nic = os.networkInterfaces()
+      return nic.wlan0[0].address.toString()
+    },
+
     // Subclass socketNotificationReceived
     // handles messages from the module
     socketNotificationReceived: function(notification, payload) {
@@ -94,6 +115,8 @@ module.exports = NodeHelper.create({
 
         } else if(notification === 'GET_MESSAGES'){
             this.loadMessages();
+        } else if(notification === 'GET_QR'){
+            this.loadQR(payload);
         }
 
     }

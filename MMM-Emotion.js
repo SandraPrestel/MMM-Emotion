@@ -16,6 +16,7 @@ Module.register("MMM-Emotion", {
         'before_yesterday': {'angry':0, 'disgust':0, 'fear':0, 'happy':0, 'neutral':0, 'sad':0, 'surprise':0}
     },
     messages : {},
+    qr_code : "",
 
     // default config values
     defaults: {
@@ -27,7 +28,8 @@ Module.register("MMM-Emotion", {
         averageOver: 5, 
         // what to show as reaction to your emotion
         show: ['current', 'message', 'image', 'song', 'history'],
-        messageFile: 'custom_messages.json'
+        messageFile: 'custom_messages.json',
+        songFile: 'custom_songs.json'
     },
 
     saveHistory: function(history){
@@ -139,16 +141,24 @@ Module.register("MMM-Emotion", {
             if (payload.emotion.message !== this.currentEmotion){
                 this.currentEmotion = payload.emotion.message
 
-                // Display history
                 this.saveHistory(payload.emotion.history)
 
-                this.updateDom()
+                // if the QR needs to be loaded, updateDom() needs to be postponed
+                if (this.config.show.includes('song')){
+                    this.sendSocketNotification('GET_QR', this.currentEmotion);
+                } else {
+                    this.updateDom();
+                }
             }
         } else if (notification === 'GOT_MESSAGES'){
             this.messages = payload.messages;
 
             Log.log("Got messages: " + payload.messages);
             //TODO: Testing, ob UpdateDom notwendig ist, wenn Messages nach Emotionen ankommen (unwahrscheinlich)
+
+        } else if (notification === 'GOT_QR'){
+            this.qr_code = payload;
+            this.updateDom();
         }
     },
 
@@ -217,7 +227,17 @@ Module.register("MMM-Emotion", {
     },
 
     moduleSong: function(){
-        
+        var songDiv = document.createElement("img");
+        songDiv.className = "qrModule";
+        songDiv.style.height = "100px";    //TODO: move to CSS
+
+        if (this.emotions.includes(this.currentEmotion)){
+            songDiv.src = this.qr_code;
+        } else {
+            songDiv.innerHTML = '<i class="fa-solid fa-xmark"></i>';
+        }
+
+        return songDiv;
     },
 
     // Build the module display
@@ -243,7 +263,7 @@ Module.register("MMM-Emotion", {
         }
 
         if (this.config.show.includes('song')){
-            
+            wrapper.appendChild(this.moduleSong());
         }
 
         if (this.config.show.includes('history')){
