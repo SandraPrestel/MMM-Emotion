@@ -192,11 +192,22 @@ Module.register("MMM-Emotion", {
 
     moduleMessage: function(){
         var messageDiv = document.createElement("div");
-        messageDiv.className = 'MessageModule';
+        messageDiv.className = 'messageModule';
 
         messageDiv.innerHTML = this.messages[this.currentEmotion];
 
         return messageDiv;
+    },
+
+    moduleImage: function(){
+        var imgPath = "/images/" + currentEmotion + ".jpg";
+
+        var imageDiv = document.createElement("img");
+		imageDiv.className = "imageModule";
+
+		imageDiv.src = "modules/" + this.name + imgPath;
+
+		return imageDiv
     },
 
     // Build the module display
@@ -218,7 +229,7 @@ Module.register("MMM-Emotion", {
         }
 
         if (this.config.show.includes('image')){
-            
+            wrapper.appendChild(this.moduleImage())
         }
 
         if (this.config.show.includes('song')){
