@@ -96,10 +96,12 @@ module.exports = NodeHelper.create({
     },
 
     loadAiImg: function(emotion) {
-      
       console.log("Get Image for emotion " + emotion);
+      this.asyncGetImage();
+    },
 
-      var resp = fetch(
+    asyncGetImage: async function(){
+      var resp = await fetch(
         `https://api.limewire.com/api/image/generation`,
         {
           method: 'POST',
@@ -117,12 +119,10 @@ module.exports = NodeHelper.create({
         }
       );
     
-      var data = resp.json();
-
+      var data = await resp.json();
       console.log("Image response " + data);
 
       this.sendSocketNotification('GOT_AIIMG', data)
-
     },
 
     // Subclass socketNotificationReceived
