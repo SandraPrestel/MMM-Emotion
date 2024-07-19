@@ -120,8 +120,8 @@ module.exports = NodeHelper.create({
       );
     
       const data = await resp.json();
-      console.log("Image response " + resp);
-      console.log("Image data " + data);
+      console.log("Image response " + JSON.stringify(resp));
+      console.log("Image data " + JSON.stringify(data));
 
       this.sendSocketNotification('GOT_AIIMG', data)
     },
