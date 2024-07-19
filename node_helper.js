@@ -119,6 +119,8 @@ module.exports = NodeHelper.create({
     
       data = resp.json();
 
+      console.log("Image response " + data);
+
       this.sendSocketNotification('GOT_AIIMG', data)
 
     },
