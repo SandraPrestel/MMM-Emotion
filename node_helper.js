@@ -101,7 +101,7 @@ module.exports = NodeHelper.create({
     },
 
     asyncGetImage: async function(emotion){
-      var resp = await fetch(
+      const resp = await fetch(
         `https://api.limewire.com/api/image/generation`,
         {
           method: 'POST',
@@ -119,8 +119,9 @@ module.exports = NodeHelper.create({
         }
       );
     
-      var data = await resp.json();
-      console.log("Image response " + data);
+      const data = await resp.json();
+      console.log("Image response " + resp);
+      console.log("Image data " + data);
 
       this.sendSocketNotification('GOT_AIIMG', data)
     },
