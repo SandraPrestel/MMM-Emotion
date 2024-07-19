@@ -17,17 +17,18 @@ Module.register("MMM-Emotion", {
     },
     messages : {},
     qr_code : "",
+    breathingVisible : true, // the module is visible on starting MM
 
     // default config values
     defaults: {
         // switch between emotion recognition models, 'DeepFace' or'Kaggle'
         emotionRecognitionModel: 'DeepFace',
         // detection interval in seconds
-        interval: 1*60,
+        interval: 10*60,
         // how many detections should be used to determine the current emotion
         averageOver: 5, 
         // what to show as reaction to your emotion
-        show: ['current', 'message', 'image', 'song', 'history'],
+        show: ['current', 'message', 'image', 'song', 'history','breath'],
         messageFile: 'custom_messages.json',
         songFile: 'custom_songs.json'
     },
@@ -135,7 +136,7 @@ Module.register("MMM-Emotion", {
     moduleMessage: function(){
         var messageDiv = document.createElement("div");
         messageDiv.className = 'messageModule';
-
+        //TODO: Fix undefined on startup and with no emotion
         messageDiv.innerHTML = this.messages[this.currentEmotion];
 
         return messageDiv;
@@ -204,7 +205,7 @@ Module.register("MMM-Emotion", {
                     'Sad', 
                     'Surprise'],
 				datasets: [{
-				    label: 'Day before Yesterday',
+				    label: 'Two days ago',
 				    data: [this.historyData['before_yesterday']['angry'], 
                         this.historyData['before_yesterday']['disgust'],
                         this.historyData['before_yesterday']['fear'],
@@ -248,12 +249,26 @@ Module.register("MMM-Emotion", {
             ]},
             options: {
                 scales: {
-                    ticks: {display: false}
+                    r: {
+                        ticks: {display: false}
+                    }
                 }
             }
 		  });
 
 		  return chart;
+    },
+
+    // Turn on and off the module MMM-Breathwork based on current emotion
+    triggerBreathwork: function() {
+        var relevantEmotions = ['angry', 'fear'];
+        breathingVisible_new = (relevantEmotions.includes(this.currentEmotion)) ? true : false;
+
+        // only send notification if visibility should change
+        if(breathingVisible_new != this.breathingVisible){
+            this.breathingVisible = breathingVisible_new;
+            this.sendNotification("REMOTE_ACTION",  {action: "TOGGLE", module: "MMM-Breathwork"})
+        }
     },
 
     // Build the module display
@@ -284,6 +299,10 @@ Module.register("MMM-Emotion", {
 
         if (this.config.show.includes('history')){
             wrapper.appendChild(this.moduleHistory());
+        }
+
+        if (this.config.show.includes('breath')){
+            this.triggerBreathwork();
         }
 
         return wrapper;

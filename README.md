@@ -15,6 +15,7 @@ A module that makes MagicMirror² recognize your emotions
 - [OpenCV](http://opencv.org)
 - deepface
 - tf_keras
+- If using the Breathing Exercise: [MMM-Breathwork](https://github.com/yashatgit/MMM-Breathwork)
 
 ## Installation
 
