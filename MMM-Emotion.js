@@ -18,6 +18,7 @@ Module.register("MMM-Emotion", {
     messages : {},
     qr_code : "",
     breathingVisible : true, // the module is visible on starting MM
+    aiImagePath : "",
 
     // default config values
     defaults: {
@@ -31,7 +32,8 @@ Module.register("MMM-Emotion", {
         show: ['current', 'message', 'image', 'song', 'history','breath'],
         messageFile: 'custom_messages.json',
         songFile: 'custom_songs.json',
-        useAImessages: true     // otherwise, the custom messages in messageFile are used
+        useAIimages: true,
+        apiKey: ''
     },
 
     saveHistory: function(history){
@@ -72,11 +74,15 @@ Module.register("MMM-Emotion", {
 
                 this.saveHistory(payload.emotion.history)
 
-                // if the QR needs to be loaded, updateDom() needs to be postponed
+                // if the QR or image needs to be loaded, updateDom() needs to be postponed
                 if (this.config.show.includes('song')){
                     this.sendSocketNotification('GET_QR', this.currentEmotion);
                 } else {
-                    this.updateDom();
+                    if (this.config.useAIimages){
+                        this.sendSocketNotification('GET_AIIMG', this.currentEmotion);
+                    } else {
+                        this.updateDom();
+                    }
                 }
             }
         } else if (notification === 'GOT_MESSAGES'){
@@ -87,6 +93,17 @@ Module.register("MMM-Emotion", {
 
         } else if (notification === 'GOT_QR'){
             this.qr_code = payload;
+            if (this.config.useAIimages){
+                this.sendSocketNotification('GET_AIIMG', this.currentEmotion);
+            } else {
+                this.updateDom();
+            }
+        } else if (notification === 'GOT_AIIMG') {
+            if (payload["status"]=="FAILED"){
+                this.aiImagePath = "";
+              } else {
+                this.aiImagePath  = payload["self"];
+              }
             this.updateDom();
         }
     },
@@ -154,7 +171,11 @@ Module.register("MMM-Emotion", {
 
         var imgPath = ""
         if (this.emotions.includes(this.currentEmotion)){
-            imgPath = "/images/" + this.currentEmotion + ".jpg";
+            if (this.config.useAIimages){
+                imgPath = this.aiImagePath;
+            } else {
+                imgPath = "/images/" + this.currentEmotion + ".jpg";
+            }
         } else {
             imgPath = "/images/" + "none" + ".jpg";
         }

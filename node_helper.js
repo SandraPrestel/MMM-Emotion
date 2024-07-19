@@ -95,9 +95,32 @@ module.exports = NodeHelper.create({
     
     },
 
-    getIP: function() {
-      let nic = os.networkInterfaces()
-      return nic.wlan0[0].address.toString()
+    loadAiImg: function(emotion) {
+      
+      console.log("Get Image for emotion " + emotion);
+
+      resp = fetch(
+        `https://api.limewire.com/api/image/generation`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-Api-Version': 'v1',
+            Accept: 'application/json',
+            Authorization: 'Bearer '+this.config.apiKey
+          },
+          body: JSON.stringify({
+            prompt: emotion,
+            quality: 'LOW',
+            aspect_ratio: '1:1'
+          })
+        }
+      );
+    
+      data = resp.json();
+
+      this.sendSocketNotification('GOT_AIIMG', data)
+
     },
 
     // Subclass socketNotificationReceived
@@ -115,10 +138,13 @@ module.exports = NodeHelper.create({
 
         } else if(notification === 'GET_MESSAGES'){
             this.loadMessages();
+
         } else if(notification === 'GET_QR'){
             this.loadQR(payload);
-        }
 
+        } else if(notification === 'GET_AIIMG'){
+            this.loadAiImg(payload);
+        }
     }
 
 });
