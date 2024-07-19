@@ -97,10 +97,10 @@ module.exports = NodeHelper.create({
 
     loadAiImg: function(emotion) {
       console.log("Get Image for emotion " + emotion);
-      this.asyncGetImage();
+      this.asyncGetImage(emotion);
     },
 
-    asyncGetImage: async function(){
+    asyncGetImage: async function(emotion){
       var resp = await fetch(
         `https://api.limewire.com/api/image/generation`,
         {
