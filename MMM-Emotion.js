@@ -30,7 +30,8 @@ Module.register("MMM-Emotion", {
         // what to show as reaction to your emotion
         show: ['current', 'message', 'image', 'song', 'history','breath'],
         messageFile: 'custom_messages.json',
-        songFile: 'custom_songs.json'
+        songFile: 'custom_songs.json',
+        useAImessages: true     // otherwise, the custom messages in messageFile are used
     },
 
     saveHistory: function(history){
@@ -136,9 +137,13 @@ Module.register("MMM-Emotion", {
     moduleMessage: function(){
         var messageDiv = document.createElement("div");
         messageDiv.className = 'messageModule';
-        //TODO: Fix undefined on startup and with no emotion
-        messageDiv.innerHTML = this.messages[this.currentEmotion];
 
+        if (this.emotions.includes(this.currentEmotion)){
+            messageDiv.innerHTML = this.messages[this.currentEmotion];
+        } else {
+            emotionTextDiv.innerHTML = "";
+        }
+        
         return messageDiv;
     },
 
