@@ -99,7 +99,7 @@ module.exports = NodeHelper.create({
       
       console.log("Get Image for emotion " + emotion);
 
-      resp = fetch(
+      var resp = fetch(
         `https://api.limewire.com/api/image/generation`,
         {
           method: 'POST',
@@ -117,7 +117,7 @@ module.exports = NodeHelper.create({
         }
       );
     
-      data = resp.json();
+      var data = resp.json();
 
       console.log("Image response " + data);
 

@@ -158,7 +158,7 @@ Module.register("MMM-Emotion", {
         if (this.emotions.includes(this.currentEmotion)){
             messageDiv.innerHTML = this.messages[this.currentEmotion];
         } else {
-            emotionTextDiv.innerHTML = "";
+            messageDiv.innerHTML = "";
         }
         
         return messageDiv;
