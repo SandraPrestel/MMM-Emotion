@@ -19,6 +19,7 @@ Module.register("MMM-Emotion", {
     qr_code : "",
     breathingVisible : true, // the module is visible on starting MM
     aiImagePath : "",
+    aiLimitReached : false,
 
     // default config values
     defaults: {
@@ -78,7 +79,7 @@ Module.register("MMM-Emotion", {
                 if (this.config.show.includes('song')){
                     this.sendSocketNotification('GET_QR', this.currentEmotion);
                 } else {
-                    if (this.config.useAIimages){
+                    if (this.config.useAIimages && !this.aiLimitReached){
                         this.sendSocketNotification('GET_AIIMG', this.currentEmotion);
                     } else {
                         this.updateDom();
@@ -99,8 +100,10 @@ Module.register("MMM-Emotion", {
                 this.updateDom();
             }
         } else if (notification === 'GOT_AIIMG') {
-            if (payload["status"]=="FAILED"){
+            if (payload["status"]==403){
                 this.aiImagePath = "";
+                this.aiLimitReached = true;
+                Log.info('Credit for AI image generation exceeded!');
               } else {
                 this.aiImagePath  = payload["self"];
               }
@@ -171,7 +174,7 @@ Module.register("MMM-Emotion", {
 
         var imgPath = ""
         if (this.emotions.includes(this.currentEmotion)){
-            if (this.config.useAIimages){
+            if (this.config.useAIimages && !this.aiLimitReached){
                 imgPath = this.aiImagePath;
             } else {
                 imgPath = "/images/" + this.currentEmotion + ".jpg";
