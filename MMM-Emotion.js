@@ -105,8 +105,10 @@ Module.register("MMM-Emotion", {
                 this.aiLimitReached = true;
                 Log.info('Credit for AI image generation exceeded!');
               } else {
-                this.aiImagePath  = payload["data"]["asset_url"];
-                Log.log("AI Image: " + payload["data"]["asset_url"]);
+                var data = payload["data"];
+                this.aiImagePath = data["asset_url"];
+                Log.log("AI Image: " + data);
+                Log.log("AI Image: " + data["asset_url"]);
               }
             this.updateDom();
         }
