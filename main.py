@@ -185,8 +185,8 @@ while True:
     while interval_left > 0:
         if closeSafe == True:
             break
-        interval_left -= 15
-        time.sleep(15)
+        interval_left -= 5
+        time.sleep(5)
 
     # close the loop when mirror is shut down
     if closeSafe == True:
