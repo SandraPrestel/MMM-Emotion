@@ -76,10 +76,11 @@ Module.register("MMM-Emotion", {
                 this.saveHistory(payload.emotion.history)
 
                 // if the QR or image needs to be loaded, updateDom() needs to be postponed
-                if (this.config.show.includes('song')){
+                // only do this if an emotion has been recognized
+                if (this.config.show.includes('song')&&this.emotions.includes(this.currentEmotion)){
                     this.sendSocketNotification('GET_QR', this.currentEmotion);
                 } else {
-                    if (this.config.useAIimages && !this.aiLimitReached){
+                    if (this.config.useAIimages && !this.aiLimitReached && this.emotions.includes(this.currentEmotion)){
                         this.sendSocketNotification('GET_AIIMG', this.currentEmotion);
                     } else {
                         this.updateDom();
@@ -90,7 +91,6 @@ Module.register("MMM-Emotion", {
             this.messages = payload.messages;
 
             Log.log("Got messages: " + payload.messages);
-            //TODO: Testing, ob UpdateDom notwendig ist, wenn Messages nach Emotionen ankommen (unwahrscheinlich)
 
         } else if (notification === 'GOT_QR'){
             this.qr_code = payload;
