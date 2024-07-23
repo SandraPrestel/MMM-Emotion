@@ -177,17 +177,15 @@ Module.register("MMM-Emotion", {
         var imgPath = ""
         if (this.emotions.includes(this.currentEmotion)){
             if (this.config.useAIimages && !this.aiLimitReached){
-                //TODO: Debugging
-                imgPath.innerHTML = "<img src = " + this.aiImagePath + ">"
-                //imgPath = this.aiImagePath;
+                imgPath = this.aiImagePath;
             } else {
-                imgPath = "/images/" + this.currentEmotion + ".jpg";
+                imgPath = "modules/" + this.name + "/images/" + this.currentEmotion + ".jpg";
             }
         } else {
-            imgPath = "/images/" + "none" + ".jpg";
+            imgPath = "modules/" + this.name + "/images/" + "none" + ".jpg";
         }
 
-        imageDiv.src = "modules/" + this.name + imgPath;
+        imageDiv.src = imgPath;
 
 		return imageDiv
     },
