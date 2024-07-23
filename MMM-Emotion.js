@@ -115,15 +115,6 @@ Module.register("MMM-Emotion", {
         }
     },
 
-    {"id":"5b7ef91a-5280-4c54-843e-99860ab2f938",
-        "self":"https://api.limewire.com/api/request/5b7ef91a-5280-4c54-843e-99860ab2f938",
-        "status":"COMPLETED",
-        "failure_code":null,
-        "failure_reason":null,
-        "credits_used":2.4,
-        "credits_remaining":7.6,
-        "data":[{"asset_id":"d69c72a7-b7cd-4eac-84d1-baf92bace512","self":"https://api.limewire.com/api/assets/d69c72a7-b7cd-4eac-84d1-baf92bace512","asset_url":"https://ai-studio-assets.limewire.media/u/aac16abf-8294-49e4-8ec9-85d12c754b9d/image/81d01cfb-8812-417e-8f00-b630c824aae7?Expires=1721728097&Signature=bA-nUnvcp4~ynhqSD0JfZjAlUBo7fsdbNG9yF-9AB5rxYMNiD3zraPkrKe9SgS00p88O~YNHEpwBs0dgXD-KAOxZjjwNYmHSY9oAludgFTyIyL6fNrgKxoUg4iVxvBQ15ZzOC6xhHdW19v-iPNgulXpxVRjcekdPFCSkQXEc5lsyiLLfvXUWXHmhLwMhmGdOebcJgqrQ6w9GPgIGp5ji9jjkHSPKemTxsLpok4MVgpxqS3FVT-hCsUklLJC1hpShZ65QcTA~M4MqRoD-DdRIWSlRaNUPqJPCuJG-tWlszjymiWHOUIIRN4AmDM~R-6M3k~D1Lyom8Rs6DTN-kLg53A__&Key-Pair-Id=K1U52DHN9E92VT","type":"image/png","width":1024,"height":1024}]} 
-
     start: function() {
         // initial call
         this.displayMessage = "Detecting Emotion ..."
