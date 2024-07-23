@@ -107,9 +107,7 @@ Module.register("MMM-Emotion", {
               } else {
                 var data = payload["data"];
                 this.aiImagePath = data[0]["asset_url"];
-                Log.log("AI Image: " + data);
-                Log.log("AI Image: " + data[0]);
-                Log.log("AI Image: " + data[0]["asset_url"]);
+                Log.info("AI Image URL: " + this.aiImagePath);
               }
             this.updateDom();
         }
@@ -179,7 +177,9 @@ Module.register("MMM-Emotion", {
         var imgPath = ""
         if (this.emotions.includes(this.currentEmotion)){
             if (this.config.useAIimages && !this.aiLimitReached){
-                imgPath = this.aiImagePath;
+                //TODO: Debugging
+                imgPath.innerHTML = "<img src = " + this.aiImagePath + ">"
+                //imgPath = this.aiImagePath;
             } else {
                 imgPath = "/images/" + this.currentEmotion + ".jpg";
             }
