@@ -200,19 +200,21 @@ Module.register("MMM-Emotion", {
         // Header
         var songHeaderDiv = document.createElement("div");
         songHeaderDiv.className = "textDiv";
-        songHeaderDiv.innerHTML = "Recommended Music";
-        songDiv.appendChild(songHeaderDiv);
-
+        
         // QR Code
         var qrDiv = document.createElement("img");
         qrDiv.className = "qrCode";
         qrDiv.style.height = "80px";    //TODO: move to CSS
 
         if (this.emotions.includes(this.currentEmotion)){
+            songHeaderDiv.innerHTML = "Recommended Music:";
             qrDiv.src = this.qr_code;
         } else {
+            songHeaderDiv.innerHTML = "No recommended Music";
             qrDiv.innerHTML = '<i class="fa-solid fa-xmark"></i>';
         }
+
+        songDiv.appendChild(songHeaderDiv);
         songDiv.appendChild(qrDiv);
 
         return songDiv;
