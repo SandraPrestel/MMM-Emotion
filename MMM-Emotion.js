@@ -225,10 +225,6 @@ Module.register("MMM-Emotion", {
         messageDiv.className = 'messageModule';
 
         if (this.emotions.includes(this.currentEmotion)){
-            Log.info(this.messages);
-            Log.info(config);
-            Log.info(config.language);
-            Log.info(this.messages[config.language]);
             messageDiv.innerHTML = this.messages[config.language][this.currentEmotion];
         } else {
             messageDiv.innerHTML = "";
@@ -297,71 +293,76 @@ Module.register("MMM-Emotion", {
         var ctx = document.createElement("canvas");
 		chart.appendChild(ctx);
 
-        //TODO: Anzeigeeinstellungen (CSS)
-        chartObject = new Chart(ctx, {
-			type: 'radar',
-			data: {
-				labels: [this.translate("LABELANGER"), 
-                    this.translate("LABELDISGUST"), 
-                    this.translate("LABELFEAR"), 
-                    this.translate("LABELHAPPY"), 
-                    this.translate("LABELNEUTRAL"), 
-                    this.translate("LABELSAD"), 
-                    this.translate("LABELSURPRISE")],
-				datasets: [{
-				    label: this.translate("BEFOREYESTERDAY"),
-				    data: [this.historyData['before_yesterday']['angry'], 
-                        this.historyData['before_yesterday']['disgust'],
-                        this.historyData['before_yesterday']['fear'],
-                        this.historyData['before_yesterday']['happy'],
-                        this.historyData['before_yesterday']['neutral'],
-                        this.historyData['before_yesterday']['sad'],
-                        this.historyData['before_yesterday']['surprise']],
-                    fill: true,
-				    backgroundColor: ['rgba(100, 170, 103, 0.4)'],
-                    borderColor: 'rgb(100, 170, 103)',
-                    pointBackgroundColor: 'rgb(100, 170, 103)'
-				},
-                {
-				    label: this.translate("YESTERDAY"),
-				    data: [this.historyData['yesterday']['angry'], 
-                        this.historyData['yesterday']['disgust'],
-                        this.historyData['yesterday']['fear'],
-                        this.historyData['yesterday']['happy'],
-                        this.historyData['yesterday']['neutral'],
-                        this.historyData['yesterday']['sad'],
-                        this.historyData['yesterday']['surprise']],
-                    fill: true,
-				    backgroundColor: ['rgba(54, 162, 235, 0.4)'],
-                    borderColor: 'rgb(54, 162, 235)',
-                    pointBackgroundColor: 'rgb(54, 162, 235)'
-				},
-                {
-				    label: this.translate("TODAY"),
-				    data: [this.historyData['today']['angry'], 
-                        this.historyData['today']['disgust'],
-                        this.historyData['today']['fear'],
-                        this.historyData['today']['happy'],
-                        this.historyData['today']['neutral'],
-                        this.historyData['today']['sad'],
-                        this.historyData['today']['surprise']],
-                    fill: true,
-				    backgroundColor: ['rgba(255, 99, 132, 0.4)'],
-                    borderColor: 'rgb(255, 99, 132)',
-                    pointBackgroundColor: 'rgb(255, 99, 132)'
-				}
-            ]},
-            options: {
-                scales: {
-                    r: {
-                        angleLines: {color: 'white'},
-                        grid: {color: 'white'},
-                        pointLabels: {color: 'red'},
-                        ticks: {color: 'red'}
+        var chartOptions = {
+            elements: {
+                line: {borderColor: 'red'}
+            },
+            scales: {
+                r: {
+                    angleLines: {color: 'red'},
+                    grid: {color: 'red'},
+                    pointLabels: {color: 'red'},
+                    ticks: {color: 'red'}
                 }
             }
+        };
+
+        var chartData = {
+            labels: [this.translate("LABELANGER"), 
+                this.translate("LABELDISGUST"), 
+                this.translate("LABELFEAR"), 
+                this.translate("LABELHAPPY"), 
+                this.translate("LABELNEUTRAL"), 
+                this.translate("LABELSAD"), 
+                this.translate("LABELSURPRISE")],
+            datasets: [{
+                label: this.translate("BEFOREYESTERDAY"),
+                data: [this.historyData['before_yesterday']['angry'], 
+                    this.historyData['before_yesterday']['disgust'],
+                    this.historyData['before_yesterday']['fear'],
+                    this.historyData['before_yesterday']['happy'],
+                    this.historyData['before_yesterday']['neutral'],
+                    this.historyData['before_yesterday']['sad'],
+                    this.historyData['before_yesterday']['surprise']],
+                fill: true,
+                backgroundColor: ['rgba(100, 170, 103, 0.4)'],
+                borderColor: 'rgb(100, 170, 103)',
+                pointBackgroundColor: 'rgb(100, 170, 103)'
+            },
+            {
+                label: this.translate("YESTERDAY"),
+                data: [this.historyData['yesterday']['angry'], 
+                    this.historyData['yesterday']['disgust'],
+                    this.historyData['yesterday']['fear'],
+                    this.historyData['yesterday']['happy'],
+                    this.historyData['yesterday']['neutral'],
+                    this.historyData['yesterday']['sad'],
+                    this.historyData['yesterday']['surprise']],
+                fill: true,
+                backgroundColor: ['rgba(54, 162, 235, 0.4)'],
+                borderColor: 'rgb(54, 162, 235)',
+                pointBackgroundColor: 'rgb(54, 162, 235)'
+            },
+            {
+                label: this.translate("TODAY"),
+                data: [this.historyData['today']['angry'], 
+                    this.historyData['today']['disgust'],
+                    this.historyData['today']['fear'],
+                    this.historyData['today']['happy'],
+                    this.historyData['today']['neutral'],
+                    this.historyData['today']['sad'],
+                    this.historyData['today']['surprise']],
+                fill: true,
+                backgroundColor: ['rgba(255, 99, 132, 0.4)'],
+                borderColor: 'rgb(255, 99, 132)',
+                pointBackgroundColor: 'rgb(255, 99, 132)'
             }
-		});
+        ]};
+
+        chartObject = new Chart(ctx, {
+			type: 'radar',
+			data: chartData,
+            options: chartOptions});
 
 		return chart;
     },
