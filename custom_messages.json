@@ -1,9 +1,19 @@
 {
-    "angry":"When angry count to ten before you speak. If very angry, count to one hundred.",
-    "disgust":"Sameness is the mother of disgust, variety the cure.",
-    "fear":"Thinking will not overcome fear but action will.",
-    "happy":"Whoever is happy will make others happy too.",
-    "neutral":"When you are balanced and when you listen and attend to the needs of your body, mind, and spirit, your natural beauty comes out.",
-    "sad":"Heavy hearts, like heavy clouds in the sky, are best relieved by the letting of a little water.",
-    "surprise":"Surprise is the greatest gift which life can grant us."
+    "en": 
+        {"angry":"When angry count to ten before you speak.\nIf very angry, count to one hundred.",
+        "disgust":"Sameness is the mother of disgust,\nvariety the cure.",
+        "fear":"Thinking will not overcome fear\nbut action will.",
+        "happy":"Whoever is happy\nwill make others happy too.",
+        "neutral":"When you are balanced and when you listen\nand attend to the needs of your body, mind, and spirit,\nyour natural beauty comes out.",
+        "sad":"Heavy hearts, like heavy clouds in the sky,\nare best relieved by the letting of a little water.",
+        "surprise":"Surprise is the greatest gift\nwhich life can grant us."},
+    "de": 
+        {"angry":"Feuer im Herzen,\nBlitzendes Auge funkelt,\nSturm im Innern tobt.",
+        "disgust":"Bitterer Geschmack,\nStarker Geruch in der Luft,\nMagen dreht sich um.",
+        "fear":"Dunkelheit naht schnell,\nZittern durch die stille Nacht,\nAtem stockt vor Furcht.",
+        "happy":"Lächeln im Herzen,\nSonnenstrahlen auf der Haut,\nFrieden tief im Geist.",
+        "neutral":"Wellen kommen, geh'n,\nRuhe im Gleichgewicht,\nStille Harmonie.",
+        "sad":"Regentropfen fall'n,\nStille füllt die leeren Räume,\nSeele weint im Wind.",
+        "surprise":"Augen weiten sich,\nHerzschlag plötzlich schneller wird,\nStaunen füllt den Raum."}
+    
 }
