@@ -351,7 +351,7 @@ Module.register("MMM-Emotion", {
             options: {
                 scales: {
                     r: {
-                        angleLines: {color: 'rgb(255, 99, 132)'}
+                        angleLines: {color: 'rgb(255, 99, 132)', display: true}
                     }
                 }
             }
