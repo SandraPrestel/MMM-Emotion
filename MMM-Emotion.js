@@ -350,13 +350,16 @@ Module.register("MMM-Emotion", {
             options: {
                 scales: {
                     r: {
-                        ticks: {display: false}
-                    }
+                        angleLines: {color: 'white'},
+                        grid: {color: 'white'},
+                        pointLabels: {color: 'red'},
+                        ticks: {color: 'red'}
                 }
             }
-		  });
+            }
+		});
 
-		  return chart;
+		return chart;
     },
 
     // Turn on and off the module MMM-Breathwork based on current emotion
