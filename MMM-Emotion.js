@@ -225,6 +225,10 @@ Module.register("MMM-Emotion", {
         messageDiv.className = 'messageModule';
 
         if (this.emotions.includes(this.currentEmotion)){
+            Log.info(this.messages);
+            Log.info(this.config);
+            Log.info(this.config.language);
+            Log.info(this.messages[this.config.language]);
             messageDiv.innerHTML = this.messages[this.config.language][this.currentEmotion];
         } else {
             messageDiv.innerHTML = "";
