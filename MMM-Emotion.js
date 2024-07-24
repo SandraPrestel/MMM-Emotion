@@ -349,6 +349,9 @@ Module.register("MMM-Emotion", {
 			type: 'radar',
 			data: chartData,
             options: {
+                elements: {
+                    line: {borderWidth: 10}
+                },
                 scales: {
                     r: {
                         angleLines: {color: 'rgb(255, 99, 132)', display: true}
