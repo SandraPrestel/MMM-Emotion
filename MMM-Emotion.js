@@ -1,5 +1,6 @@
 Module.register("MMM-Emotion", {
-
+///	SETUP
+    // Variables and initial values
     emotions : ['angry', 'disgust', 'fear', 'happy', 'neutral', 'sad', 'surprise'],
     icons: {'angry': '<i class="fa-regular fa-face-angry"></i>', 
         'disgust': '<i class="fa-regular fa-face-grimace"></i>', 
@@ -21,7 +22,7 @@ Module.register("MMM-Emotion", {
     aiImagePath : "",
     aiLimitReached : false,
 
-    // default config values
+    // Default module config
     defaults: {
         // switch between emotion recognition models, 'DeepFace' or'Kaggle'
         emotionRecognitionModel: 'DeepFace',
@@ -29,12 +30,97 @@ Module.register("MMM-Emotion", {
         interval: 10*60,
         // how many detections should be used to determine the current emotion
         averageOver: 5, 
-        // what to show as reaction to your emotion
+        // which elements to display
         show: ['current', 'message', 'image', 'song', 'history','breath'],
         messageFile: 'custom_messages.json',
         songFile: 'custom_songs.json',
         useAIimages: true,
-        apiKey: ''
+        apiKey: ''  // see readme
+    },
+
+    // Styling
+	getStyles: function() {
+		return ["MMM-Emotion.css"];
+	},
+
+    //TODO Translations
+//	getTranslations: function() {
+//		return {
+//				en: "translations/en.json",
+//				de: "translations/de.json"
+//		}
+//	},
+
+/// STARTING AND RUNNING
+	// Initialisation
+    start: function() {
+        // initial call
+        this.displayMessage = "Detecting Emotion ..."
+        this.currentEmotion = ""
+
+        this.sendSocketNotification('CONFIG', this.config);
+		Log.info('Starting module: ' + this.name);
+
+        // get messages for emotions
+        if (this.config.show.includes('message')){
+            this.sendSocketNotification('GET_MESSAGES', this.config);
+        } 
+    },
+
+    // Override socket notification handler
+    socketNotificationReceived: function(notification, payload){
+        if(notification === 'emotion') {
+            // Only change the display if the return message has changed
+            if (payload.emotion.message !== this.currentEmotion){
+                this.currentEmotion = payload.emotion.message
+                this.saveHistory(payload.emotion.history)
+
+                // If the QR or image needs to be loaded, those methods need be called and updateDom() is postponed
+                // However, only do this if an emotion has been recognized
+                if (this.config.show.includes('song')&&this.emotions.includes(this.currentEmotion)){
+                    this.sendSocketNotification('GET_QR', this.currentEmotion);
+                } else {
+                    if (this.config.useAIimages && !this.aiLimitReached && this.emotions.includes(this.currentEmotion)){
+                        this.sendSocketNotification('GET_AIIMG', this.currentEmotion);
+                    } else {
+                        this.updateDom();
+                    }
+                }
+            }
+
+        } else if (notification === 'GOT_MESSAGES'){
+            this.messages = payload.messages;
+            Log.log("Got messages: " + payload.messages);
+
+        } else if (notification === 'GOT_QR'){
+            this.qr_code = payload;
+
+            // If the AI image needs to be loaded as well, postpone the display update
+            if (this.config.useAIimages){
+                this.sendSocketNotification('GET_AIIMG', this.currentEmotion);
+            } else {
+                this.updateDom();
+            }
+
+        } else if (notification === 'GOT_AIIMG') {
+            // The quota of AI images is very low, so when it is reached, use the local images instead
+            if (payload["status"]==403){
+                this.aiImagePath = "";
+                this.aiLimitReached = true;
+                Log.info('Credit for AI image generation exceeded!');
+            
+            // handle other errors
+            } else if (payload["status"]!="COMPLETED"){
+                this.aiImagePath = "";
+                Log.info('Error calling AI image generation: '+payload["status"]);
+
+            } else {
+                var data = payload["data"];
+                this.aiImagePath = data[0]["asset_url"];
+                Log.info("AI Image URL: " + this.aiImagePath);
+              }
+            this.updateDom();
+        }
     },
 
     saveHistory: function(history){
@@ -66,67 +152,44 @@ Module.register("MMM-Emotion", {
         Log.log("Today Happy: "+ this.historyData['today']['happy'])
     },
 
-    socketNotificationReceived: function(notification, payload){
+    // Override DOM generator - Generating the display
+    getDom: function () {
+        var wrapper = document.createElement("div");
+        wrapper.className = "module";
 
-        if(notification === 'emotion') {
-            // only change the display if the emotion has changed
-            if (payload.emotion.message !== this.currentEmotion){
-                this.currentEmotion = payload.emotion.message
+        var title = document.createElement("header");
+        title.className = "title";
+        title.innerHTML = "My Emotions";
+        wrapper.appendChild(title);
 
-                this.saveHistory(payload.emotion.history)
-
-                // if the QR or image needs to be loaded, updateDom() needs to be postponed
-                // only do this if an emotion has been recognized
-                if (this.config.show.includes('song')&&this.emotions.includes(this.currentEmotion)){
-                    this.sendSocketNotification('GET_QR', this.currentEmotion);
-                } else {
-                    if (this.config.useAIimages && !this.aiLimitReached && this.emotions.includes(this.currentEmotion)){
-                        this.sendSocketNotification('GET_AIIMG', this.currentEmotion);
-                    } else {
-                        this.updateDom();
-                    }
-                }
-            }
-        } else if (notification === 'GOT_MESSAGES'){
-            this.messages = payload.messages;
-
-            Log.log("Got messages: " + payload.messages);
-
-        } else if (notification === 'GOT_QR'){
-            this.qr_code = payload;
-            if (this.config.useAIimages){
-                this.sendSocketNotification('GET_AIIMG', this.currentEmotion);
-            } else {
-                this.updateDom();
-            }
-        } else if (notification === 'GOT_AIIMG') {
-            if (payload["status"]==403){
-                this.aiImagePath = "";
-                this.aiLimitReached = true;
-                Log.info('Credit for AI image generation exceeded!');
-              } else {
-                var data = payload["data"];
-                this.aiImagePath = data[0]["asset_url"];
-                Log.info("AI Image URL: " + this.aiImagePath);
-              }
-            this.updateDom();
+        if (this.config.show.includes('current')){
+            wrapper.appendChild(this.moduleEmotion());
         }
-    },
 
-    start: function() {
-        // initial call
-        this.displayMessage = "Detecting Emotion ..."
-        this.currentEmotion = ""
-
-        this.sendSocketNotification('CONFIG', this.config);
-		Log.info('Starting module: ' + this.name);
-
-        // get messages for emotions
         if (this.config.show.includes('message')){
-            this.sendSocketNotification('GET_MESSAGES', this.config);
-        } 
-    },
+            wrapper.appendChild(this.moduleMessage());
+        }
 
+        if (this.config.show.includes('image')){
+            wrapper.appendChild(this.moduleImage())
+        }
+
+        if (this.config.show.includes('song')){
+            wrapper.appendChild(this.moduleSong());
+        }
+
+        if (this.config.show.includes('history')){
+            wrapper.appendChild(this.moduleHistory());
+        }
+
+        if (this.config.show.includes('breath')){
+            this.triggerBreathwork();
+        }
+
+        return wrapper;
+    },
+    
+/// DISPLAY MODULES
     // Show current emotion as text and icon
     moduleEmotion: function(){
         var currentDiv = document.createElement("div");
@@ -156,6 +219,7 @@ Module.register("MMM-Emotion", {
         return currentDiv;
     },
 
+    // Short message relating to emotion as loaded from the file
     moduleMessage: function(){
         var messageDiv = document.createElement("div");
         messageDiv.className = 'messageModule';
@@ -169,6 +233,7 @@ Module.register("MMM-Emotion", {
         return messageDiv;
     },
 
+    // Image realting to emotion, can optionally be created by AI
     moduleImage: function(){
         var imageDiv = document.createElement("img");
 		imageDiv.className = "imageModule";
@@ -190,6 +255,7 @@ Module.register("MMM-Emotion", {
 		return imageDiv
     },
 
+    // QR code representing URL to a song or playlist related to emotion
     moduleSong: function(){
         var songDiv = document.createElement("div");
         songDiv.className = "songModule";
@@ -217,6 +283,7 @@ Module.register("MMM-Emotion", {
         return songDiv;
     },
 
+    // Overview of the emotions from the last few days
     moduleHistory: function(){
         var chart = document.createElement("div");
         chart.className = "chart";
@@ -304,41 +371,6 @@ Module.register("MMM-Emotion", {
         }
     },
 
-    // Build the module display
-    getDom: function () {
-        var wrapper = document.createElement("div");
-        wrapper.className = "module";
-
-        var title = document.createElement("header");
-        title.className = "title";
-        title.innerHTML = "My Emotions";
-        wrapper.appendChild(title);
-
-        if (this.config.show.includes('current')){
-            wrapper.appendChild(this.moduleEmotion());
-        }
-
-        if (this.config.show.includes('message')){
-            wrapper.appendChild(this.moduleMessage());
-        }
-
-        if (this.config.show.includes('image')){
-            wrapper.appendChild(this.moduleImage())
-        }
-
-        if (this.config.show.includes('song')){
-            wrapper.appendChild(this.moduleSong());
-        }
-
-        if (this.config.show.includes('history')){
-            wrapper.appendChild(this.moduleHistory());
-        }
-
-        if (this.config.show.includes('breath')){
-            this.triggerBreathwork();
-        }
-
-        return wrapper;
-    },
+    
 }
 );

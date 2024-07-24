@@ -1,3 +1,4 @@
+# IMPORTS
 import json
 import sys
 import os
@@ -21,7 +22,7 @@ import pandas as pd
 from deepface import DeepFace
 
 
-# get module configuration, configure shutdown mechanism and set global variables
+# VARIABLES
 CONFIG = json.loads(sys.argv[1])
 USED_MODEL = CONFIG['emotionRecognitionModel']
 PATH_TO_FILE = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
@@ -30,6 +31,8 @@ PATH_TO_FILE = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentfr
 detected_emotions = []  
 currentEmotion = ""
 
+
+# FUNCTIONS
 def to_node(type, message):
     """Convert message to json and print (node helper will read from stdout)"""
     try:
@@ -40,17 +43,19 @@ def to_node(type, message):
     sys.stdout.flush()
 
 def signalHandler(signal, frame):
+    """Trigger safe shutdown of the python script"""
     global closeSafe
     closeSafe = True
 
 signal.signal(signal.SIGINT, signalHandler)
 closeSafe = False
 
-def most_frequent(List):
+def most_frequent_in(List):
     occurence_count = Counter(List)
     return occurence_count.most_common(1)[0][0]
 
 def update_history(emotion):
+    """Save the emotion history to CSV"""
     today = str(date.today())
     currentTime = str(datetime.now().time())
 
@@ -64,8 +69,8 @@ def update_history(emotion):
         csvwriter = csv.writer(csvfile, quoting=csv.QUOTE_ALL)
         csvwriter.writerows(newRow)
 
-def recent_history():
-    # get count of emotions of today and previous two days
+def get_recent_history():
+    """Get the count of emotions of today and previous two days from CSV"""
     today = str(date.today())
     yesterday = str(date.today()- timedelta(days=1))
     before_yesterday = str(date.today()- timedelta(days=2))
@@ -91,31 +96,26 @@ def recent_history():
 to_node("status", "Module setup...")
 to_node("status", "Selected model " + USED_MODEL + "...")
 
-# setup environment and load models
+# SETUP
 # Deepface doesn't need additional resources
 if (USED_MODEL == 'Kaggle'):
     kaggleModel = load_model(PATH_TO_FILE + '/face_detection/emotion_model8.h5')
-    kaggleLabels = ['angry', 'disgust', 'fear', 'happy', 'neutral', 'sad', 'surprise']  #TODO: verify these labels
+    kaggleLabels = ['angry', 'disgust', 'fear', 'happy', 'neutral', 'sad', 'surprise']
 
 to_node("status", "Environment setup...")
-
 
 # Setup the face detection
 FACE_DETECTOR = cv2.CascadeClassifier(PATH_TO_FILE + "/face_detection/haarcascade_frontalface_default.xml")
 to_node("status", "Face Detection model loaded...")
 
-
-# start the camera
+# Start the camera
 picam2 = Picamera2()
 camera_config = picam2.create_preview_configuration(main={"format": 'XRGB8888', "size": (640, 480)})
 picam2.configure(camera_config)
 picam2.start()
 
-## next lines only for debugging
-#time.sleep(2)
-#picam2.capture_file("testPython.jpg")
-#to_node("status", "Testimage saved...")
 
+# EMOTION RECOGNITION
 # do the emotion recognition at the interval and using the model specified in config.js
 while True:
 
@@ -129,8 +129,8 @@ while True:
     to_node("status", "Faces detected...")
 
     # only detect emotions for one face
-    noFaces = len(faces)
-    if (noFaces == 1):
+    numberOfFaces = len(faces)
+    if (numberOfFaces == 1):
         # crop the region for the face in the frame
         rgbImg = rgb_frame = cv2.cvtColor(greyImg, cv2.COLOR_GRAY2RGB)
         x, y, w, h = faces[0]                   
@@ -164,18 +164,17 @@ while True:
 
         update_history(currentEmotion)
 
-        returnMessage = most_frequent(detected_emotions)
+        returnMessage = most_frequent_in(detected_emotions)
 
-    elif (noFaces == 0):
+    elif (numberOfFaces == 0):
         returnMessage = "no Faces detected"
 
-    elif (noFaces > 1):
+    elif (numberOfFaces > 1):
         returnMessage = "multiple Faces detected"
 
-    history = recent_history()
+    history = get_recent_history()
 
     result = {'message': returnMessage, 'history': history}
-    to_node("status", "result: "+str(result))
 
     # return the result to the mirror
     to_node('result', {'emotion': result})

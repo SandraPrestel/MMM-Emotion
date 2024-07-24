@@ -19,7 +19,7 @@ module.exports = NodeHelper.create({
 
         console.log("Starting Python Shell")
         
-        // create a shell to run our python script in
+        // Start Python shell to run the script in
         self.pyshell = new PythonShell('modules/' + this.name + '/main.py', { 
             mode: 'json', 
             args: [JSON.stringify(this.config)],
@@ -28,7 +28,7 @@ module.exports = NodeHelper.create({
 
         self.py_process = self.pyshell.childProcess;
         
-        // whenever the script returns a recognized emotion, send it on to our module
+        // Whenever the script returns a recognized emotion, send it on to our module
         self.pyshell.on('message', function(message){
           if (message.hasOwnProperty('status')){
             console.log("[" + self.name + "] " + message.status);
@@ -39,6 +39,7 @@ module.exports = NodeHelper.create({
                 emotion: message.result.emotion
               }
             );
+
           } else if (message.hasOwnProperty('error')) {
             console.log("[" + self.name + "] " + message.error.err_msg)
               self.sendSocketNotification('emotion', {
@@ -48,7 +49,7 @@ module.exports = NodeHelper.create({
           }
         });
 
-        // shutdown the python shell
+        // Shutdown the python shell
         self.pyshell.end(function(err) {
             if (err) throw err;
             console.log("[" + self.name + "] " + 'finished running...');
@@ -125,11 +126,11 @@ module.exports = NodeHelper.create({
       this.sendSocketNotification('GOT_AIIMG', data)
     },
 
-    // Subclass socketNotificationReceived
-    // handles messages from the module
+
+    // Receive notifications from MMM-Emotion.js
     socketNotificationReceived: function(notification, payload) {
+      // The config is sent on module startup
         if(notification === 'CONFIG') {
-            // save config data sent by the message
             this.config = payload
 
             // if python hasn't started yet, start the python shell
