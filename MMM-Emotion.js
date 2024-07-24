@@ -293,26 +293,6 @@ Module.register("MMM-Emotion", {
         var ctx = document.createElement("canvas");
 		chart.appendChild(ctx);
 
-        var chartOptions = {
-            elements: {
-                line: {borderColor: 'red', borderWidth: 1}
-            },
-            scales: {
-                r: {
-                    ticks: {
-                        font: {size: 6}
-                    },
-                    pointLabels: {
-                        fontSize: 20,
-                        color: 'red'
-                    },
-                    angleLines: {color: 'red'},
-                    grid: {color: 'red'},
-                    ticks: {color: 'red'}
-                }
-            }
-        };
-
         var chartData = {
             labels: [this.translate("LABELANGER"), 
                 this.translate("LABELDISGUST"), 
@@ -368,7 +348,14 @@ Module.register("MMM-Emotion", {
         chartObject = new Chart(ctx, {
 			type: 'radar',
 			data: chartData,
-            options: chartOptions,});
+            options: {
+                scales: {
+                    r: {
+                        angleLines: {color: 'rgb(255, 99, 132)'}
+                    }
+                }
+            }
+        });
 
 		return chart;
     },
