@@ -226,10 +226,10 @@ Module.register("MMM-Emotion", {
 
         if (this.emotions.includes(this.currentEmotion)){
             Log.info(this.messages);
-            Log.info(this.config);
-            Log.info(this.config.language);
-            Log.info(this.messages[this.config.language]);
-            messageDiv.innerHTML = this.messages[this.config.language][this.currentEmotion];
+            Log.info(config);
+            Log.info(config.language);
+            Log.info(this.messages[config.language]);
+            messageDiv.innerHTML = this.messages[config.language][this.currentEmotion];
         } else {
             messageDiv.innerHTML = "";
         }
