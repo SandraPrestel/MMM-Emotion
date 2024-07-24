@@ -295,13 +295,19 @@ Module.register("MMM-Emotion", {
 
         var chartOptions = {
             elements: {
-                line: {borderColor: 'red'}
+                line: {borderColor: 'red', borderWidth: 1}
             },
             scales: {
                 r: {
+                    ticks: {
+                        font: {size: 6}
+                    },
+                    pointLabels: {
+                        fontSize: 20,
+                        color: 'red'
+                    },
                     angleLines: {color: 'red'},
                     grid: {color: 'red'},
-                    pointLabels: {color: 'red'},
                     ticks: {color: 'red'}
                 }
             }
@@ -362,7 +368,7 @@ Module.register("MMM-Emotion", {
         chartObject = new Chart(ctx, {
 			type: 'radar',
 			data: chartData,
-            options: chartOptions});
+            options: chartOptions,});
 
 		return chart;
     },
