@@ -167,10 +167,10 @@ while True:
         returnMessage = most_frequent_in(detected_emotions)
 
     elif (numberOfFaces == 0):
-        returnMessage = "no Faces detected"
+        returnMessage = "NOFACES"
 
     elif (numberOfFaces > 1):
-        returnMessage = "multiple Faces detected"
+        returnMessage = "MULTIFACES"
 
     history = get_recent_history()
 

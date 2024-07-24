@@ -43,19 +43,19 @@ Module.register("MMM-Emotion", {
 		return ["MMM-Emotion.css"];
 	},
 
-    //TODO Translations
-//	getTranslations: function() {
-//		return {
-//				en: "translations/en.json",
-//				de: "translations/de.json"
-//		}
-//	},
+    // Translations
+	getTranslations: function() {
+		return {
+				en: "translations/en.json",
+				de: "translations/de.json"
+		}
+	},
 
 /// STARTING AND RUNNING
 	// Initialisation
     start: function() {
         // initial call
-        this.displayMessage = "Detecting Emotion ..."
+        this.displayMessage = this.translate("LOADING");
         this.currentEmotion = ""
 
         this.sendSocketNotification('CONFIG', this.config);
@@ -159,7 +159,7 @@ Module.register("MMM-Emotion", {
 
         var title = document.createElement("header");
         title.className = "title";
-        title.innerHTML = "My Emotions";
+        title.innerHTML = this.translate("EMOTIONS_TITLE");
         wrapper.appendChild(title);
 
         if (this.config.show.includes('current')){
@@ -210,9 +210,9 @@ Module.register("MMM-Emotion", {
         emotionTextDiv.className = 'textDiv';
 
         if (this.emotions.includes(this.currentEmotion)){
-            emotionTextDiv.innerHTML = 'I feel ' + this.currentEmotion;
+            emotionTextDiv.innerHTML = this.translate("IFEEL") + this.translate(this.currentEmotion);
         } else {
-            emotionTextDiv.innerHTML = this.currentEmotion;
+            emotionTextDiv.innerHTML = this.translate(this.currentEmotion);
         }
         currentDiv.appendChild(emotionTextDiv);
 
@@ -270,10 +270,10 @@ Module.register("MMM-Emotion", {
         qrDiv.style.height = "80px";    //TODO: move to CSS
 
         if (this.emotions.includes(this.currentEmotion)){
-            songHeaderDiv.innerHTML = "Recommended Music:";
+            songHeaderDiv.innerHTML = this.translate("RECOMMENDED");
             qrDiv.src = this.qr_code;
         } else {
-            songHeaderDiv.innerHTML = "No recommended Music";
+            songHeaderDiv.innerHTML = this.translate("NORECOMMENDATION");
             qrDiv.innerHTML = '<i class="fa-solid fa-xmark"></i>';
         }
 
@@ -297,15 +297,15 @@ Module.register("MMM-Emotion", {
         chartObject = new Chart(ctx, {
 			type: 'radar',
 			data: {
-				labels: ['Anger', 
-                    'Disgust', 
-                    'Fear', 
-                    'Happy', 
-                    'Neutral', 
-                    'Sad', 
-                    'Surprise'],
+				labels: [this.translate("LABELANGER"), 
+                    this.translate("LABELDISGUST"), 
+                    this.translate("LABELFEAR"), 
+                    this.translate("LABELHAPPY"), 
+                    this.translate("LABELNEUTRAL"), 
+                    this.translate("LABELSAD"), 
+                    this.translate("LABELSURPRISE")],
 				datasets: [{
-				    label: 'Two days ago',
+				    label: this.translate("BEFOREYESTERDAY"),
 				    data: [this.historyData['before_yesterday']['angry'], 
                         this.historyData['before_yesterday']['disgust'],
                         this.historyData['before_yesterday']['fear'],
@@ -319,7 +319,7 @@ Module.register("MMM-Emotion", {
                     pointBackgroundColor: 'rgb(100, 170, 103)'
 				},
                 {
-				    label: 'Yesterday',
+				    label: this.translate("YESTERDAY"),
 				    data: [this.historyData['yesterday']['angry'], 
                         this.historyData['yesterday']['disgust'],
                         this.historyData['yesterday']['fear'],
@@ -333,7 +333,7 @@ Module.register("MMM-Emotion", {
                     pointBackgroundColor: 'rgb(54, 162, 235)'
 				},
                 {
-				    label: 'Today',
+				    label: this.translate("TODAY"),
 				    data: [this.historyData['today']['angry'], 
                         this.historyData['today']['disgust'],
                         this.historyData['today']['fear'],
