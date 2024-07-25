@@ -355,11 +355,12 @@ Module.register("MMM-Emotion", {
             options: {
                 scale: {
                     ticks: {
-                        backdropColor: 'rgba(0, 0, 0, 0.9)'
+                        display: false,
+                        fontFamily: "FontAwesome"
                     },
                     angleLines: {
                         display: true,
-                        color: 'rgba(255, 255, 255, 0.5)'
+                        color: 'rgba(255, 255, 255, 0.4)'
                     },
                 }
             }
