@@ -216,7 +216,7 @@ Module.register("MMM-Emotion", {
         if (this.emotions.includes(this.currentEmotion)){
             emotionTextDiv.innerHTML = this.translate("IFEEL") + this.translate(this.currentEmotion);
         } else {
-            emotionTextDiv.innerHTML = this.translate(this.currentEmotion);
+            emotionTextDiv.innerHTML = '\uf368'+this.translate(this.currentEmotion);    //TODO: Remove
         }
         currentDiv.appendChild(emotionTextDiv);
 
@@ -349,6 +349,8 @@ Module.register("MMM-Emotion", {
             }
         ]};
 
+        Chart.defaults.defaultFontFamily = "'Font Awesome 6 Free','Helvetica Neue', 'Helvetica', 'Arial', 'sans-serif'";
+
         chartObject = new Chart(ctx, {
 			type: 'radar',
 			data: chartData,
@@ -356,7 +358,7 @@ Module.register("MMM-Emotion", {
                 scale: {
                     ticks: {
                         display: false,
-                        fontFamily: "FontAwesome"
+                        fontFamily: "'Font Awesome 6 Free'"
                     },
                     angleLines: {
                         display: true,
