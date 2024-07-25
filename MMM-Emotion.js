@@ -216,7 +216,7 @@ Module.register("MMM-Emotion", {
         if (this.emotions.includes(this.currentEmotion)){
             emotionTextDiv.innerHTML = this.translate("IFEEL") + this.translate(this.currentEmotion);
         } else {
-            emotionTextDiv.innerHTML = "\uf1b9"+this.translate(this.currentEmotion);    //TODO: Remove
+            emotionTextDiv.innerHTML = this.translate(this.currentEmotion);
         }
         currentDiv.appendChild(emotionTextDiv);
 
@@ -299,7 +299,7 @@ Module.register("MMM-Emotion", {
 		chart.appendChild(ctx);
 
         var chartData = {
-            labels: ["\uf1b9", 
+            labels: ['\uf119', 
                 this.translate("LABELDISGUST"), 
                 this.translate("LABELFEAR"), 
                 this.translate("LABELHAPPY"), 
