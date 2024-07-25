@@ -359,7 +359,8 @@ Module.register("MMM-Emotion", {
                 scale: {
                     pointLabels: {
                         fontFamily: "'Font Awesome 6 Free'",
-                        fontColor: 'rgba(255, 255, 255, 0.8)'
+                        fontColor: 'rgba(255, 255, 255, 0.8)',
+                        fontSize: 20
                     },
                     ticks: {
                         display: false
