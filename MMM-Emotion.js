@@ -361,7 +361,7 @@ Module.register("MMM-Emotion", {
                         display: true,
                         color: 'rgba(255, 255, 255, 0.5)'
                     },
-
+                }
             }
         });
 
