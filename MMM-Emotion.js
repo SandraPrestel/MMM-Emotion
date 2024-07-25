@@ -299,13 +299,13 @@ Module.register("MMM-Emotion", {
 		chart.appendChild(ctx);
 
         var chartData = {
-            labels: ['\uf119', 
-                this.translate("LABELDISGUST"), 
-                this.translate("LABELFEAR"), 
-                this.translate("LABELHAPPY"), 
-                this.translate("LABELNEUTRAL"), 
-                this.translate("LABELSAD"), 
-                this.translate("LABELSURPRISE")],
+            labels: ['\uf556', 
+                '\uf57f', 
+                '\uf579', 
+                '\uf59a', 
+                '\uf11a', 
+                '\uf57a', 
+                '\uf5c2'],
             datasets: [{
                 label: this.translate("BEFOREYESTERDAY"),
                 data: [this.historyData['before_yesterday']['angry'], 
@@ -358,7 +358,8 @@ Module.register("MMM-Emotion", {
             options: {
                 scale: {
                     pointLabels: {
-                        fontFamily: "'Font Awesome 6 Free'"
+                        fontFamily: "'Font Awesome 6 Free'",
+                        fontColor: 'rgba(255, 255, 255, 0.8)'
                     },
                     ticks: {
                         display: false
