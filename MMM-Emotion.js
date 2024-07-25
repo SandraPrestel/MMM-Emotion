@@ -354,8 +354,13 @@ Module.register("MMM-Emotion", {
 			data: chartData,
             options: {
                 scale: {
-                    showLabelBackdrop: false
-                }
+                    ticks: {
+                        backdropColor: 'rgba(0, 0, 0, 0.9)'
+                    },
+                    angleLines: {
+                        display: true,
+                        color: 'rgba(255, 255, 255, 0.5)'
+                    },
 
             }
         });
