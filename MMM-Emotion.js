@@ -353,8 +353,13 @@ Module.register("MMM-Emotion", {
                     line: {borderWidth: 10}
                 },
                 scales: {
-                    r: {
-                        angleLines: {color: 'rgb(255, 99, 132)', display: true}
+                    ticks: {
+                        display:false,
+                        beginAtZero: true,
+                        stepSize: 1,
+                        font: {
+                            size: 6
+                        }
                     }
                 }
             }
