@@ -52,7 +52,7 @@ Module.register("MMM-Emotion", {
 	},
 
     getScripts: function () {
-        return ["modules/" + this.name + "/node_modules/chart.js/dist/chart.min.js"];
+        return ["modules/" + this.name + "/node_modules/chart.js/dist/Chart.min.js"];
     },
 
 /// STARTING AND RUNNING
