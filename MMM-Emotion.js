@@ -358,7 +358,8 @@ Module.register("MMM-Emotion", {
             options: {
                 legend: {
                     labels: {
-                        usePointStyle: true
+                        usePointStyle: true,
+                        fontColor: 'rgba(255, 255, 255, 0.7)'
                     }
                 },
                 scale: {
@@ -376,7 +377,7 @@ Module.register("MMM-Emotion", {
                     },
                     gridLines: {
                         display: true,
-                        color: 'rgba(255, 255, 255, 0.2)'
+                        color: 'rgba(255, 255, 255, 0.1)'
                     }
                 }
             }
