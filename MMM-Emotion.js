@@ -356,10 +356,15 @@ Module.register("MMM-Emotion", {
 			type: 'radar',
 			data: chartData,
             options: {
+                legend: {
+                    labels: {
+                        usePointStyle: true
+                    }
+                },
                 scale: {
                     pointLabels: {
                         fontFamily: "'Font Awesome 6 Free'",
-                        fontColor: 'rgba(255, 255, 255, 0.8)',
+                        fontColor: 'rgba(255, 255, 255, 0.7)',
                         fontSize: 20
                     },
                     ticks: {
@@ -367,8 +372,12 @@ Module.register("MMM-Emotion", {
                     },
                     angleLines: {
                         display: true,
-                        color: 'rgba(255, 255, 255, 0.4)'
+                        color: 'rgba(255, 255, 255, 0.5)'
                     },
+                    gridLines: {
+                        display: true,
+                        color: 'rgba(255, 255, 255, 0.2)'
+                    }
                 }
             }
         });
