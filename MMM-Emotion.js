@@ -7,7 +7,7 @@ Module.register("MMM-Emotion", {
         'fear': '<i class="fa-regular fa-face-flushed"></i>', 
         'happy': '<i class="fa-regular fa-face-laugh-beam"></i>', 
         'neutral': '<i class="fa-regular fa-face-meh"></i>', 
-        'sad': '<i class="fa-regular fa-face-frown-open"></i>', 
+        'sad': '<i class="fa-regular fa-face-frown"></i>', 
         'surprise': '<i class="fa-regular fa-face-surprise"></i>',
         'no': '<i class="fa-solid fa-xmark"></i>'},
     currentEmotion : "Loading...",
@@ -304,7 +304,7 @@ Module.register("MMM-Emotion", {
                 '\uf579', 
                 '\uf59a', 
                 '\uf11a', 
-                '\uf57a', 
+                '\uf119', 
                 '\uf5c2'],
             datasets: [{
                 label: this.translate("BEFOREYESTERDAY"),
