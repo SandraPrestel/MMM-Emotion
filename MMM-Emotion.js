@@ -353,23 +353,10 @@ Module.register("MMM-Emotion", {
 			type: 'radar',
 			data: chartData,
             options: {
-//                elements: {
-//                    line: {borderWidth: 10}
-//                },
-                scales:  {
-                    myScale: {
-                        axis: 'r',
-                        ticks: {
-                            display:false,
-                            beginAtZero: true,
-                            stepSize: 1,
-                            font: {
-                                size: 6
-                            }
-                        },
-                        grid: {color: 'white'}
-                    }
+                scale: {
+                    showLabelBackdrop: false
                 }
+
             }
         });
 
