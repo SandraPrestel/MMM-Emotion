@@ -216,7 +216,7 @@ Module.register("MMM-Emotion", {
         if (this.emotions.includes(this.currentEmotion)){
             emotionTextDiv.innerHTML = this.translate("IFEEL") + this.translate(this.currentEmotion);
         } else {
-            emotionTextDiv.innerHTML = '\uf368'+this.translate(this.currentEmotion);    //TODO: Remove
+            emotionTextDiv.innerHTML = "\uf1b9"+this.translate(this.currentEmotion);    //TODO: Remove
         }
         currentDiv.appendChild(emotionTextDiv);
 
