@@ -298,7 +298,7 @@ Module.register("MMM-Emotion", {
 		chart.appendChild(ctx);
 
         var chartData = {
-            labels: ['\uf368', 
+            labels: ["\uf1b9", 
                 this.translate("LABELDISGUST"), 
                 this.translate("LABELFEAR"), 
                 this.translate("LABELHAPPY"), 
@@ -356,9 +356,11 @@ Module.register("MMM-Emotion", {
 			data: chartData,
             options: {
                 scale: {
-                    ticks: {
-                        display: false,
+                    pointLabels: {
                         fontFamily: "'Font Awesome 6 Free'"
+                    },
+                    ticks: {
+                        display: false
                     },
                     angleLines: {
                         display: true,
