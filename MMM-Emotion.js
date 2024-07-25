@@ -298,7 +298,7 @@ Module.register("MMM-Emotion", {
 		chart.appendChild(ctx);
 
         var chartData = {
-            labels: [this.translate("LABELANGER"), 
+            labels: ['\uf368', 
                 this.translate("LABELDISGUST"), 
                 this.translate("LABELFEAR"), 
                 this.translate("LABELHAPPY"), 
