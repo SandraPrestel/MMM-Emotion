@@ -311,7 +311,7 @@ Module.register("MMM-Emotion", {
                     this.historyData['before_yesterday']['sad'],
                     this.historyData['before_yesterday']['surprise']],
                 fill: true,
-                backgroundColor: ['rgba(100, 170, 103, 0.4)'],
+                backgroundColor: ['rgba(100, 170, 103, 0.5)'],
                 borderColor: 'rgb(100, 170, 103)',
                 pointBackgroundColor: 'rgb(100, 170, 103)'
             },
@@ -325,7 +325,7 @@ Module.register("MMM-Emotion", {
                     this.historyData['yesterday']['sad'],
                     this.historyData['yesterday']['surprise']],
                 fill: true,
-                backgroundColor: ['rgba(54, 162, 235, 0.4)'],
+                backgroundColor: ['rgba(54, 162, 235, 0.5)'],
                 borderColor: 'rgb(54, 162, 235)',
                 pointBackgroundColor: 'rgb(54, 162, 235)'
             },
@@ -339,7 +339,7 @@ Module.register("MMM-Emotion", {
                     this.historyData['today']['sad'],
                     this.historyData['today']['surprise']],
                 fill: true,
-                backgroundColor: ['rgba(255, 99, 132, 0.4)'],
+                backgroundColor: ['rgba(255, 99, 132, 0.5)'],
                 borderColor: 'rgb(255, 99, 132)',
                 pointBackgroundColor: 'rgb(255, 99, 132)'
             }
@@ -349,17 +349,21 @@ Module.register("MMM-Emotion", {
 			type: 'radar',
 			data: chartData,
             options: {
-                elements: {
-                    line: {borderWidth: 10}
-                },
-                scales: {
-                    ticks: {
-                        display:false,
-                        beginAtZero: true,
-                        stepSize: 1,
-                        font: {
-                            size: 6
-                        }
+//                elements: {
+//                    line: {borderWidth: 10}
+//                },
+                scales:  {
+                    myScale: {
+                        axis: 'r',
+                        ticks: {
+                            display:false,
+                            beginAtZero: true,
+                            stepSize: 1,
+                            font: {
+                                size: 6
+                            }
+                        },
+                        grid: {color: 'white'}
                     }
                 }
             }
