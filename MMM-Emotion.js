@@ -295,6 +295,7 @@ Module.register("MMM-Emotion", {
 		chart.style.height = "500px";	//TODO: move to CSS
 
         var ctx = document.createElement("canvas");
+        ctx.className = "chartcanvas";
 		chart.appendChild(ctx);
 
         var chartData = {
