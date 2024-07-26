@@ -1,4 +1,4 @@
-.MMM-Emotion.wrapper {
+.MMM-Emotion .wrapper {
     display: flex;
 	flex-direction: column;
 	flex-wrap: nowrap;
@@ -6,49 +6,49 @@
     align-items: center;
 }
 
-.MMM-Emotion.currentEmotionModule{
+.MMM-Emotion .currentEmotionModule{
     display: flex;
 	flex-direction: row;
 	flex-wrap: nowrap;
     width: 500px;
 }
 
-.MMM-Emotion.iconDiv{
+.MMM-Emotion .iconDiv{
     display: block;
     flex: 0 0 20px;
 }
 
-.MMM-Emotion.textDiv{
+.MMM-Emotion .textDiv{
     display: block;
 }
 
-.MMM-Emotion.messageModule{
+.MMM-Emotion .messageModule{
     width: 500px;
     margin: auto;
 }
 
-.MMM-Emotion.imageModule{
-    max-height: 300px;
+.MMM-Emotion .imageModule{
+    height: 150px;
     max-width: 500px;
 }
 
-.MMM-Emotion.songModule{
+.MMM-Emotion .songModule{
     width: 400px;
     display: flex;
 	flex-direction: row;
 	flex-wrap: nowrap;
 }
 
-.MMM-Emotion.songText{
+.MMM-Emotion .songText{
     margin: auto;
     display: block;
 }
 
-.MMM-Emotion.qrCode{
-    flex: 0 0 80px;
+.MMM-Emotion .qrCode{
+    flex: 0 0 50px;
 }
 
-.MMM-Emotion.chartdiv{
+.MMM-Emotion .chartdiv{
     width: 500px;
     height: 500px;
     align-items: center;
@@ -56,7 +56,7 @@
     display: block;
 }
 
-.MMM-Emotion.chartcanvas{
+.MMM-Emotion .chartcanvas{
     margin: 0 auto;
     width: 100%;
 	height: 100%;
