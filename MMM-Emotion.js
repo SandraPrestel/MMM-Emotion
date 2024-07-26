@@ -352,6 +352,7 @@ Module.register("MMM-Emotion", {
 			type: 'radar',
 			data: chartData,
             options: {
+                aspectRatio: 1,
                 legend: {
                     labels: {
                         usePointStyle: true,
