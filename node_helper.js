@@ -1,5 +1,3 @@
-// Implementation based on https://github.com/joanaz/MMM-Emotion-Detection and https://github.com/paviro/MMM-Facial-Recognition
-
 'use strict';
 const NodeHelper = require('node_helper');
 const { PythonShell } = require('python-shell');
@@ -23,7 +21,7 @@ module.exports = NodeHelper.create({
         self.pyshell = new PythonShell('modules/' + this.name + '/main.py', { 
             mode: 'json', 
             args: [JSON.stringify(this.config)],
-            pythonPath: '/home/medicalmirror/mmenv/bin/python3'
+            pythonPath: config.pythonPath
         });
 
         self.py_process = self.pyshell.childProcess;

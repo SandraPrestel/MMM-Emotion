@@ -35,7 +35,8 @@ Module.register("MMM-Emotion", {
         messageFile: 'custom_messages.json',
         songFile: 'custom_songs.json',
         useAIimages: true,
-        apiKey: ''  // see readme
+        apiKey: '',  // see readme
+        pythonPath: "python3"	// set this in config.js if you use a virtual environment
     },
 
     // Styling
