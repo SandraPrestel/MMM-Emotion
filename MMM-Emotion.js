@@ -241,7 +241,6 @@ Module.register("MMM-Emotion", {
     moduleImage: function(){
         var imageDiv = document.createElement("img");
 		imageDiv.className = "imageModule";
-        imageDiv.style.height = "200px";    //TODO: move to CSS
 
         var imgPath = ""
         if (this.emotions.includes(this.currentEmotion)){
@@ -266,12 +265,11 @@ Module.register("MMM-Emotion", {
 
         // Header
         var songHeaderDiv = document.createElement("div");
-        songHeaderDiv.className = "textDiv";
+        songHeaderDiv.className = "songText";
         
         // QR Code
         var qrDiv = document.createElement("img");
         qrDiv.className = "qrCode";
-        qrDiv.style.height = "80px";    //TODO: move to CSS
 
         if (this.emotions.includes(this.currentEmotion)){
             songHeaderDiv.innerHTML = this.translate("RECOMMENDED");
@@ -290,9 +288,7 @@ Module.register("MMM-Emotion", {
     // Overview of the emotions from the last few days
     moduleHistory: function(){
         var chart = document.createElement("div");
-        chart.className = "chart";
-		chart.style.width = "500px";		//TODO: move to CSS
-		chart.style.height = "500px";	//TODO: move to CSS
+        chart.className = "chartdiv";
 
         var ctx = document.createElement("canvas");
         ctx.className = "chartcanvas";
