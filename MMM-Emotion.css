@@ -2,7 +2,7 @@
     display: flex;
 	flex-direction: column;
 	flex-wrap: nowrap;
-	max-width: 300px;
+	max-width: 250px;
     align-items: center;
     align-content: center;
     justify-content: center;
@@ -13,7 +13,7 @@
     display: flex;
 	flex-direction: row;
 	flex-wrap: nowrap;
-    width: 300px;
+    width: 250px;
     padding: 0 0 10px 10px;
     border-bottom: 1px solid rgba(255, 255, 255, .5);
 }
@@ -29,7 +29,7 @@
 }
 
 .MMM-Emotion .messageModule{
-    width: 300px;
+    width: 250px;
     margin: auto;
     white-space: pre-line;
     text-align: center;
@@ -39,11 +39,12 @@
 
 .MMM-Emotion .imageModule{
     height: 200px;
-    max-width: 300px;
+    max-width: 250px;
+    justify-content: center;
 }
 
 .MMM-Emotion .songModule{
-    width: 300px;
+    width: 250px;
     display: flex;
 	flex-direction: row;
 	flex-wrap: nowrap;
@@ -56,6 +57,7 @@
 
 .MMM-Emotion .songText{
     margin: 0;
+    padding-right: 10px;
     display: block;
 }
 
@@ -66,8 +68,9 @@
 }
 
 .MMM-Emotion .chartdiv{
-    width: 300px;
-    height: 300px;
+    width: 250px;
+    height: 250px;
+    padding-top: 10px;
     align-items: center;
     justify-content: center;
     margin: 0 auto;
