@@ -15,13 +15,13 @@ module.exports = NodeHelper.create({
     python_start: function(){
         const self = this;
 
-        console.log("Starting Python Shell")
+        console.log("Starting Python Shell on "+ this.config.pythonPath);
         
         // Start Python shell to run the script in
         self.pyshell = new PythonShell('modules/' + this.name + '/main.py', { 
             mode: 'json', 
             args: [JSON.stringify(this.config)],
-            pythonPath: config.pythonPath
+            pythonPath: this.config.pythonPath
         });
 
         self.py_process = self.pyshell.childProcess;
