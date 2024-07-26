@@ -43,16 +43,19 @@
 }
 
 .MMM-Emotion .songModule{
-    width: 250px;
+    width: 300px;
     display: flex;
 	flex-direction: row;
 	flex-wrap: nowrap;
     align-items: center;
     justify-content: center;
+    padding: 10px 0 10px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, .5);
+    border-top: 1px solid rgba(255, 255, 255, .5);
 }
 
 .MMM-Emotion .songText{
-    margin: auto;
+    margin: 0;
     display: block;
 }
 

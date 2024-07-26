@@ -353,6 +353,7 @@ Module.register("MMM-Emotion", {
 			data: chartData,
             options: {
                 aspectRatio: 1,
+                spanGaps: true,
                 legend: {
                     labels: {
                         usePointStyle: true,
