@@ -17,7 +17,7 @@ This module was tested on a Raspberry Pi Model 3B and runs reasonably well with 
 
 ## Example
 
-TODO: Screenshot
+<img src="screenshot.png" alt="drawing" width="170"/>
 
 ## Dependencies
 
