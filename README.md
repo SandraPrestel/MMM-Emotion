@@ -45,7 +45,7 @@ These will be installed automatically when running npm install.
 
 ### Depending on Configuration:
 
-- If using the Breathing Exercise: [MMM-Breathwork](https://github.com/yashatgit/MMM-Breathwork) (set `hiddenOnStartup: true` in `config.js`)
+- If using the Breathing Exercise: [MMM-Breathwork](https://github.com/yashatgit/MMM-Breathwork)
 - If using AI generated images: API Key (see below)
 
 ## Setup
