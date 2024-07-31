@@ -152,6 +152,8 @@ Add this to your `~/MagicMirror/config/config.js`
 
 ## Troubleshooting
 
+The option to dynamically show a breathing exercise using MMM-Breathwork is NOT COMPATIBLE with using pages for the MagicMirror, like with the module MMM-pages. The page change will override the visibility settings by this module.
+
 ### Update this module
 
 If you want to update this module from GitHub, run:
