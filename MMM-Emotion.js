@@ -18,7 +18,7 @@ Module.register("MMM-Emotion", {
     },
     messages : {},
     qr_code : "",
-    breathingVisible : true, // the module is visible on starting MM
+    breathingVisible : false, // the module is visible on starting MM
     aiImagePath : "",
     aiLimitReached : false,
 
